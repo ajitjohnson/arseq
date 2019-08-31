@@ -10,6 +10,7 @@
 #' @import DESeq2
 #' @import GenomeInfoDbData
 #' @import goseq
+#' @import SummarizedExperiment
 #' @import plyr
 #' @importFrom dplyr "%>%"
 #' @import ggplot2

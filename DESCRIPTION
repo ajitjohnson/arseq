@@ -54,6 +54,7 @@ Imports:
   EnhancedVolcano (>= 1.0),
   pathview (>= 1.22),
   gage (>= 2.32),
-  gageData (>= 2.20)
+  gageData (>= 2.20),
+  SummarizedExperiment (>= 1.12)
 RoxygenNote: 6.1.1
 Suggests: testthat
