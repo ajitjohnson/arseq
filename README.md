@@ -47,7 +47,7 @@ devtools::install_github( "ajitjohnson/arseq" )
 install.packages("arseq")
 
 # Load the package
-library("imsig")
+library("arseq")
 ```
 Import your counts matrix and meta data file into R environment.
 ```R
