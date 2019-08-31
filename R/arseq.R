@@ -8,6 +8,7 @@
 #' @param general.stats TRUE or FALSE. TRUE would run the general stat module (PCA, MDS, etc.. for your entire dataset). If you are making multiple comparisons using the contrast argument, run  general.stats = TRUE for the first time and change it to general.stats = FALSE for the subsequent comparisons to speed up the analysis.
 #' @return All analysis results will be stored within a folder named "arseq" within your working directory.
 #' @import DESeq2
+#' @import GenomeInfoDbData
 #' @import goseq
 #' @import plyr
 #' @importFrom dplyr "%>%"
@@ -32,7 +33,6 @@
 #' @import gage
 #' @import gageData
 #' @import geneLenDataBase
-#' @import GenomeInfoDbData
 #' @examples
 #' \dontrun{
 #' arseq (data = example_data,meta = example_meta, design = "treatment", contrast = list(A = c("control"), B= c("treatment1")), general.stats= TRUE, variable.genes=1000)
