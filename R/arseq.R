@@ -223,7 +223,7 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
 
   vsd_subset <- vst(dds_subset, blind = FALSE)
 
-  sampleDists <- dist(t(vsd@assays$data[[1]]))
+  sampleDists <- dist(t(vsd_subset@assays$data[[1]]))
   sampleDistMatrix <- as.matrix( sampleDists )
   colnames(sampleDistMatrix) <- NULL
   # save plot
@@ -270,7 +270,7 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
   # MSD plot
   print("Performing multidimensional scaling (MDS) analysis between the constrast groups")
 
-  mds <- as.data.frame(vsd_subset@colData)  %>% cbind(cmdscale(sampleDistMatrix))
+  mds <- data.frame(vsd_subset@colData)  %>% cbind(cmdscale(sampleDistMatrix))
   mds.plot <- ggplot(mds, aes_string(x = mds$`1`, y = mds$`2`, color = "arseq.group" )) +
     geom_point(size = 3) + coord_fixed()+ geom_text_repel(aes(label = rownames(mds)),size = 3)+
     theme(legend.title = element_blank())
