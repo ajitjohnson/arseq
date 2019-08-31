@@ -31,7 +31,7 @@ biocViews:
 Imports:
   DESeq2 (>= 1.22),
   GenomeInfoDbData (>= 1.2),
-  geneLenDataBase (>= 1.18)
+  geneLenDataBase (>= 1.18),
   goseq (>= 1.34),
   plyr (>= 1.8),
   dplyr (>= 0.8),
