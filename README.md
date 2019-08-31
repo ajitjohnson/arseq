@@ -39,8 +39,12 @@ A .csv file with information regarding the samples. It is absolutely critical th
 ## How to use
 Install and load the package.
 ```R
+# For developmental version
 if( !require(devtools) ) install.packages("devtools")
 devtools::install_github( "ajitjohnson/arseq" )
+
+# For stable version
+install.packages("arseq")
 
 library("imsig")
 ```
