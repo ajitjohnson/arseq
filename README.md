@@ -51,14 +51,19 @@ library("imsig")
 ```
 Import your counts matrix and meta data file into R environment.
 ```R
+# Set the working directory (path to the folder of where your data is located)
 setwd("\path to the folder \of where your data is located\")
+
+# Load your counts table into R
 my_data <- read.csv("counts_table.csv", row.names = 1, header = T) # replace counts_table.csv with your file name
+
+# Load your meta data into R
 my_meta <- read.csv("meta_data.csv", row.names = 1, header = T) # replace meta_data.csv with your file name
 ```
 Run the analysis
 ```R
+# Run the analysis. The results will be saved in the same folder as your input data.
 arseq (data = my_data, meta = my_meta, design = "treatment", contrast = list(A = c("control"), B= c("treatment1")))
-# The results will be saved in the same folder as your input data.
 ```
 In the above command,<br>
 `design` is the column name of the meta data file that contains information regarding the groups you would like to perform differential expression on. You could pass more complex designs- Read documentation of [DESEq2](http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html) to understand it better. For example I have a column named treatment in my meta data file and it contains information regarding which samples are control samples and which samples were treated with different drugs. <br>
