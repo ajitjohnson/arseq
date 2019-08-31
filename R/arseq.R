@@ -10,7 +10,6 @@
 #' @import DESeq2
 #' @import GenomeInfoDbData
 #' @import goseq
-#' @importFrom SummarizedExperiment assay
 #' @import plyr
 #' @importFrom dplyr "%>%"
 #' @import ggplot2
@@ -118,7 +117,7 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
     # Sample to sample distance
     vsd <- vst(dds, blind = FALSE)
     print("Calculating the Euclidean distance between samples")
-    sampleDists <- dist(t(SummarizedExperiment::assay(vsd)))
+    sampleDists <- dist(t(vsd@assays$data[[1]]))
     sampleDistMatrix <- as.matrix( sampleDists )
     colnames(sampleDistMatrix) <- NULL
     # save plot
@@ -224,7 +223,7 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
 
   vsd_subset <- vst(dds_subset, blind = FALSE)
 
-  sampleDists <- dist(t(SummarizedExperiment::assay(vsd_subset)))
+  sampleDists <- dist(t(vsd@assays$data[[1]]))
   sampleDistMatrix <- as.matrix( sampleDists )
   colnames(sampleDistMatrix) <- NULL
   # save plot
