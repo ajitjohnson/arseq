@@ -65,19 +65,26 @@ Run the analysis
 # Run the analysis. The results will be saved in the same folder as your input data.
 arseq (data = my_data, meta = my_meta, design = "treatment", contrast = list(A = c("control"), B= c("treatment1")))
 ```
-In the above command,<br>
-`design` is the column name of the meta data file that contains information regarding the groups you would like to perform differential expression on. You could pass more complex designs- Read documentation of [DESEq2](http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html) to understand it better. For example I have a column named treatment in my meta data file and it contains information regarding which samples are control samples and which samples were treated with different drugs. <br>
+In the above command,<br><br>
+`design` is the column name of the meta data file that contains information regarding the groups you would like to perform differential expression on. You could pass more complex designs- Read documentation of [DESEq2](http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html) to understand it better. For example I have a column named treatment in my meta data file and it contains information regarding which samples are control samples and which samples were treated with different drugs. <br><br>
 `contrast` is another argument that you will need to specify. This is simply the groups of samples between which you would like to calculate the differentially expressed genes. It follows the following format `contrast = list(A = c(""), B= c(""))`.<br><br>
 Say you have three groups in your dataset- *Control, treatment-1 and treatment-2*<br><br>
-**Comparison- 1:** Identify the differentially expressed genes between *Control vs treatment-1*, then you would pass the contrast in the following manner `contrast = list(A = c("Control"), B= c("treatment-1"))`<br>
+**Comparison- 1:** Identify the differentially expressed genes between *Control vs treatment-1*, then you would pass the contrast in the following manner `contrast = list(A = c("Control"), B= c("treatment-1"))`<br><br>
 **Comparison- 2:** Identify the differentially expressed genes between *Control vs treatment-1 + treatment-2*, then you would pass the contrast in the following manner `contrast = list(A = c("Control"), B= c("treatment-1", "treatment-2"))`
 
 ## Example dataset
 The package comes with an example dataset. In order to familiarise yourself with the package and its input requirements you could take a look at the example dataset.
 ```R
+# view the example counts table
 head(example_data)
+
+# view the example meta data
 head(example_meta)
+
+# Set the working directory. Folder to which you would like to save your results.
 setwd("\path to the folder \that you would like to save the results\")
+
+# Run the analysis. Here we are identifying the differences between control samples and treatment1 samples.
 arseq (data = example_data, meta = example_meta, design = "treatment", contrast = list(A = c("control"), B= c("treatment1")))
 ```
 
