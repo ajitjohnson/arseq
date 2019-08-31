@@ -39,7 +39,9 @@ A .csv file with information regarding the samples. It is absolutely critical th
 ## How to use
 Install and load the package.
 ```R
-install.packages("imsig")
+if( !require(devtools) ) install.packages("devtools")
+devtools::install_github( "ajitjohnson/arseq" )
+
 library("imsig")
 ```
 Import your counts matrix and meta data file into R environment.
