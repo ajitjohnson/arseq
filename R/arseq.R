@@ -370,10 +370,10 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
   # Individual pathway figures for the top 5 pathways
   # Get the pathways
   keggrespathways_up = data.frame(id=rownames(keggres$greater), keggres$greater) %>% tbl_df() %>%
-    filter(q.val<=0.05) %>% filter(row_number()<=5) %>% .$id %>% as.character()
+    dplyr::filter(q.val<=0.05) %>% dplyr::filter(row_number()<=5) %>% .$id %>% as.character()
 
   keggrespathways_down = data.frame(id=rownames(keggres$less), keggres$less) %>% tbl_df() %>%
-    filter(q.val<=0.05) %>% filter(row_number()<=5) %>% .$id %>% as.character()
+    dplyr::filter(q.val<=0.05) %>% dplyr::filter(row_number()<=5) %>% .$id %>% as.character()
   # collate the pathways
   keggrespathways = c(keggrespathways_up, keggrespathways_down)
   # Get the IDs.
