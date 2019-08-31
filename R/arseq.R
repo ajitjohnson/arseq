@@ -29,7 +29,7 @@
 #' @import grid
 #' @import gplots
 #' @import EnhancedVolcano
-#' @import pathview
+#' @importFrom pathview pathview
 #' @import gage
 #' @import geneLenDataBase
 #' @examples
