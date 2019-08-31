@@ -1,0 +1,57 @@
+Package: arseq
+Type: Package
+Title: Automated RNASeq Analysis Pipeline 
+Version: 0.1.0
+Author: Ajit Johnson Nirmal
+Maintainer: Ajit Johnson Nirmal <ajitjohnson.n@gmail.com>
+Description: An easy to use automated pipeline for analysing RNA Seq data.The package currently supports the following analysis.
+    Over all data structure:
+    Euclidean distance between samples
+    Poisson distance between samples
+    PCA analysis
+    PCA Eigenvectors
+    Multidimensional scaling (MDS) analysis
+    Most variable genes
+    Between groups of interest:
+    Differential gene expression analysis using DESeq2
+    Volcano Plot of differentially expressed genes
+    Euclidean distance between samples
+    Poisson distance between samples
+    PCA analysis
+    PCA Eigenvectors
+    Multidimensional scaling (MDS) analysis
+    GO enrichment of the differentially expressed genes
+    KEGG pathway enrichment of the differentially expressed genes
+    KEGG pathway diagrams of the top 5 enriched pathways
+    GSEA analysis
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+biocViews:
+Imports:
+  DESeq2 (>= 1.22),
+  goseq (>= 1.34),
+  plyr (>= 1.8),
+  dplyr (>= 0.8),
+  ggplot2 (>= 3.2),
+  gridExtra (>= 2.3),
+  stringr (>= 1.4),
+  org.Hs.eg.db (>= 3.7),
+  KEGGREST (>= 1.22),
+  fgsea (>= 1.8),
+  msigdbr (>= 6.2),
+  xlsx (>= 0.6),
+  biomaRt (>= 2.38),
+  RColorBrewer (>= 1.1),
+  pheatmap (>= 1.0),
+  viridis (>= 0.5),
+  PoiClaClu (>= 1.0),
+  ggrepel (>= 0.8),
+  grid (>= 3.5),
+  gplots (>= 3.0),
+  EnhancedVolcano (>= 1.0),
+  pathview (>= 1.22),
+  gage (>= 2.32),
+  gageData (>= 2.20)
+RoxygenNote: 6.1.1
+Suggests: testthat
