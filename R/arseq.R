@@ -31,7 +31,6 @@
 #' @import EnhancedVolcano
 #' @import pathview
 #' @import gage
-#' @import gageData
 #' @import geneLenDataBase
 #' @examples
 #' \dontrun{
@@ -359,7 +358,7 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
   foldchanges = deg$log2FoldChange
   names(foldchanges) = deg$entrez
   # Get the results
-  kegg.sets.hs <- get(data(kegg.sets.hs))
+  kegg.sets.hs <- kegg.sets.hs
   keggres = gage(foldchanges, gsets=kegg.sets.hs, same.dir=TRUE)
   up_regulated_pathways <- data.frame(keggres[["greater"]])
   down_regulated_pathways <- data.frame(keggres[["less"]])

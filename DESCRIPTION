@@ -53,7 +53,6 @@ Imports:
   gplots (>= 3.0),
   EnhancedVolcano (>= 1.0),
   pathview (>= 1.22),
-  gage (>= 2.32),
-  gageData (>= 2.20)
+  gage (>= 2.32)
 RoxygenNote: 6.1.1
 Suggests: testthat
