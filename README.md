@@ -2,7 +2,7 @@
 This is a easy to use R package for *automated basic RNASeq analysis with minimal coding*, designed for experimental biologist with little to no coding experience. <br><br>
 For an **in depth tutorial** on how to use this package checkout the following [blog post](https://ajitjohnson.com/arseq).
 
-#### The package currently supports the following analysis
+### The package currently supports the following analysis
 
 **Over all data structure analysis:**<br>
   - Euclidean distance between samples
