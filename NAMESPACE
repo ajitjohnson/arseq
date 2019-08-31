@@ -3,6 +3,7 @@
 export(arseq)
 import(DESeq2)
 import(EnhancedVolcano)
+import(GenomeInfoDbData)
 import(KEGGREST)
 import(PoiClaClu)
 import(RColorBrewer)

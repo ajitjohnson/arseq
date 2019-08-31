@@ -32,6 +32,7 @@
 #' @import gage
 #' @import gageData
 #' @import geneLenDataBase
+#' @import GenomeInfoDbData
 #' @examples
 #' \dontrun{
 #' arseq (data = example_data,meta = example_meta, design = "treatment", contrast = list(A = c("control"), B= c("treatment1")), general.stats= TRUE, variable.genes=1000)
