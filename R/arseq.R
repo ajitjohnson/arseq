@@ -11,7 +11,7 @@
 #' @import GenomeInfoDbData
 #' @import goseq
 #' @import plyr
-#' @importFrom dplyr tbl_df filter "%>%"
+#' @importFrom dplyr tbl_df filter row_number "%>%"
 #' @import ggplot2
 #' @import gridExtra
 #' @import stringr
