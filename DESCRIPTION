@@ -1,7 +1,7 @@
 Package: arseq
 Type: Package
 Title: Automated RNASeq Analysis Pipeline 
-Version: 1.0.0
+Version: 1.0.6
 Author: Ajit Johnson Nirmal
 Maintainer: Ajit Johnson Nirmal <ajitjohnson.n@gmail.com>
 Description: This is a easy to use R package for automated basic analysis of RNASeq data with minimal coding. This package has been designed for experimental biologist with little to no coding experience. The package currently supports the following analysis. 
@@ -27,11 +27,11 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Depends:
-  R (>= 3.3.0)
+  R (>= 3.4.0)
 biocViews:
 Imports:
-  GenomeInfoDb (>= 1.20.0),
-  GenomeInfoDbData (>= 1.0.0),
+  GenomeInfoDb (>= 1.12.0),
+  GenomeInfoDbData (>= 0.1.0),
   geneLenDataBase (>= 1.9.2),
   DESeq2 (>= 1.22),
   goseq (>= 1.34),
