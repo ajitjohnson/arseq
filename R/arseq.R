@@ -8,14 +8,12 @@
 #' @param general.stats TRUE or FALSE. TRUE would run the general stat module (PCA, MDS, etc.. for your entire dataset). If you are making multiple comparisons using the contrast argument, run  general.stats = TRUE for the first time and change it to general.stats = FALSE for the subsequent comparisons to speed up the analysis.
 #' @return All analysis results will be stored within a folder named "arseq" within your working directory.
 #' @import DESeq2
-#' @import GenomeInfoDbData
 #' @import goseq
 #' @import plyr
 #' @importFrom dplyr tbl_df filter row_number "%>%"
 #' @import ggplot2
 #' @import gridExtra
 #' @import stringr
-#' @import org.Hs.eg.db
 #' @import KEGGREST
 #' @import fgsea
 #' @import msigdbr
@@ -31,7 +29,6 @@
 #' @import EnhancedVolcano
 #' @import pathview
 #' @import gage
-#' @import geneLenDataBase
 #' @import utils
 #' @import grDevices
 #' @import graphics
