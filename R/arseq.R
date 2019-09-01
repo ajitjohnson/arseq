@@ -1,7 +1,7 @@
 #' @title Automated RNASeq Analysis Pipeline
 #' @description An easy to use pipeline for analysing RNA Seq data.The package currently supports the following analysis- Differential gene expression analysis using DESeq2, Calculate the most variable genes, PCA analysis, GO enrichment of the differentially expressed genes, KEGG pathway enrichment of the differentially expressed genes, GSEA analysis.
 #' @param data Un-normalized counts matrix (please note that you should NOT pass in normalized data matrix). Check example- head(example_data): \code{\link{example_data}}. The counts table should contain unique gene names as the first column. ENSEMBL ID's are also allowed but no other form of ID's are currently supported.
-#' @param meta Meta data. A csv file with the first column containing the sample names (exactly the same as your counts martix and in the same order). The consecutive columns can be meta information about the samples (at least one additional column is compulsory with information regaring the groups the sample belong to e.g- control/treatment). Check example- head(example_meta): \code{\link{example_meta}}.
+#' @param meta Meta data. A csv file with the first column containing the sample names (exactly the same as your counts martix and in the same order). The consecutive columns can be meta information about the samples (at least one additional column is compulsory with information regaring the groups the sample belong to e.g- control/treatment). Check example- head(example_meta).
 #' @param design a formula which expresses how the counts for each gene depend on your metadata. Check DESeq2 documentation for designing the formula. In general you pass in a column name (e.g. treatment) of your metadata file which has your groups of interest or a combination of column names ((e.g. treatment + cell_type).
 #' @param contrast Names of the groups that you would like to compare. It could be between two groups e.g.- control vs treatment or it could be a comparision between multiple groups (groupA+groupB vs groupC). In any case it needs to follow the following format- "contrast = list(A = c(""), B= c(""))". In the first case where you have only two groups i.e. control vs treatment, you will do the following: "contrast = list(A = c("control"), B= c("treatment"))". In situations where you have multiple groups to compare- e.g. groupA+groupB vs groupC, you will do the following- "contrast = list(A = c("groupA","groupB), B= c("groupC"))".
 #' @param variable.genes Number of variable genes to be identified. By default the program identifies the top 1000 most variable genes.
@@ -20,7 +20,7 @@
 #' @import fgsea
 #' @import msigdbr
 #' @import xlsx
-#' @importFrom biomaRt useEnsembl
+#' @importFrom biomaRt useEnsembl getBM
 #' @import RColorBrewer
 #' @import pheatmap
 #' @import viridis
@@ -29,12 +29,18 @@
 #' @import grid
 #' @import gplots
 #' @import EnhancedVolcano
-#' @importFrom pathview pathview
+#' @import pathview
 #' @import gage
 #' @import geneLenDataBase
+#' @import utils
+#' @import grDevices
+#' @import graphics
+#' @importFrom AnnotationDbi mapIds
+#' @importFrom stats aggregate as.formula cmdscale complete.cases dist hclust na.omit prcomp
 #' @examples
 #' \dontrun{
-#' arseq (data = example_data,meta = example_meta, design = "treatment", contrast = list(A = c("control"), B= c("treatment1")), general.stats= TRUE, variable.genes=1000)
+#' contrast = list(A = c("control"), B= c("treatment1"))
+#' arseq (data = example_data,meta = example_meta, design = "treatment", contrast = contrast)
 #' }
 #' @export
 

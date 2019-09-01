@@ -1,5 +1,7 @@
 #' @title Startup Message
 #' @description ARSeq- An automated RNASeq analysis pipeline
+#' @param libname Library Name
+#' @param pkgname Package name
 .onAttach <- function(libname, pkgname) {
   packageStartupMessage(paste("#################################################################",
                               "Thank you for using ARSeq- An automated RNASeq analysis pipeline.",

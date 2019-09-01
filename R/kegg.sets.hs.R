@@ -1,8 +1,7 @@
 #' @title kegg.sets.hs
-#' @description kegg.sets.hs
-#' @name example_data
+#' @description Kegg pathway gene sets.
+#' @name kegg.sets.hs
 #' @docType data
 #' @usage kegg.sets.hs
-#' @format dataframe
 #' @keywords datasets
 NULL

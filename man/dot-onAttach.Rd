@@ -6,6 +6,11 @@
 \usage{
 .onAttach(libname, pkgname)
 }
+\arguments{
+\item{libname}{Library Name}
+
+\item{pkgname}{Package name}
+}
 \description{
 ARSeq- An automated RNASeq analysis pipeline
 }

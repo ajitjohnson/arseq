@@ -4,29 +4,12 @@ Title: Automated RNASeq Analysis Pipeline
 Version: 0.1.0
 Author: Ajit Johnson Nirmal
 Maintainer: Ajit Johnson Nirmal <ajitjohnson.n@gmail.com>
-Description: An easy to use automated pipeline for analysing RNA Seq data.The package currently supports the following analysis.
-    Over all data structure:
-    Euclidean distance between samples
-    Poisson distance between samples
-    PCA analysis
-    PCA Eigenvectors
-    Multidimensional scaling (MDS) analysis
-    Most variable genes
-    Between groups of interest:
-    Differential gene expression analysis using DESeq2
-    Volcano Plot of differentially expressed genes
-    Euclidean distance between samples
-    Poisson distance between samples
-    PCA analysis
-    PCA Eigenvectors
-    Multidimensional scaling (MDS) analysis
-    GO enrichment of the differentially expressed genes
-    KEGG pathway enrichment of the differentially expressed genes
-    KEGG pathway diagrams of the top 5 enriched pathways
-    GSEA analysis
+Description: An easy to use automated pipeline for analysing RNA Seq data.The package currently supports the following analysis. Over all data structure- Euclidean distance between samples, Poisson distance between samples, PCA analysis, PCA Eigenvectors, Multidimensional scaling (MDS) analysis and Most variable genes. Between groups of interest- Differential gene expression analysis using DESeq2, Volcano Plot of differentially expressed genes, Euclidean distance between samples, Poisson distance between samples, PCA analysis, PCA Eigenvectors, Multidimensional scaling (MDS) analysis, GO enrichment of the differentially expressed genes, KEGG pathway enrichment of the differentially expressed genes, KEGG pathway diagrams of the top 5 enriched pathways and GSEA analysis
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
+Depends:
+  R (>= 2.10)
 biocViews:
 Imports:
   DESeq2 (>= 1.22),
@@ -53,6 +36,7 @@ Imports:
   gplots (>= 3.0),
   EnhancedVolcano (>= 1.0),
   pathview (>= 1.22),
-  gage (>= 2.32)
+  gage (>= 2.32),
+  AnnotationDbi (>= 1.44)
 RoxygenNote: 6.1.1
 Suggests: testthat

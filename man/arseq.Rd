@@ -10,7 +10,7 @@ arseq(data, meta, design, contrast, general.stats = TRUE,
 \arguments{
 \item{data}{Un-normalized counts matrix (please note that you should NOT pass in normalized data matrix). Check example- head(example_data): \code{\link{example_data}}. The counts table should contain unique gene names as the first column. ENSEMBL ID's are also allowed but no other form of ID's are currently supported.}
 
-\item{meta}{Meta data. A csv file with the first column containing the sample names (exactly the same as your counts martix and in the same order). The consecutive columns can be meta information about the samples (at least one additional column is compulsory with information regaring the groups the sample belong to e.g- control/treatment). Check example- head(example_meta): \code{\link{example_meta}}.}
+\item{meta}{Meta data. A csv file with the first column containing the sample names (exactly the same as your counts martix and in the same order). The consecutive columns can be meta information about the samples (at least one additional column is compulsory with information regaring the groups the sample belong to e.g- control/treatment). Check example- head(example_meta).}
 
 \item{design}{a formula which expresses how the counts for each gene depend on your metadata. Check DESeq2 documentation for designing the formula. In general you pass in a column name (e.g. treatment) of your metadata file which has your groups of interest or a combination of column names ((e.g. treatment + cell_type).}
 
@@ -28,6 +28,7 @@ An easy to use pipeline for analysing RNA Seq data.The package currently support
 }
 \examples{
 \dontrun{
-arseq (data = example_data,meta = example_meta, design = "treatment", contrast = list(A = c("control"), B= c("treatment1")), general.stats= TRUE, variable.genes=1000)
+contrast = list(A = c("control"), B= c("treatment1"))
+arseq (data = example_data,meta = example_meta, design = "treatment", contrast = contrast)
 }
 }

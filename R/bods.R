@@ -1,8 +1,7 @@
 #' @title bods
-#' @description bods
-#' @name example_data
+#' @description The various organisms pathview package supports.
+#' @name bods
 #' @docType data
 #' @usage bods
 #' @format dataframe
-#' @keywords datasets
 NULL
