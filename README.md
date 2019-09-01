@@ -29,12 +29,12 @@ For an in depth tutorial on how to use this package checkout the following [blog
 #### Counts Table
 A .csv file with **un-normalized unique genes** as rows and samples as columns. Counts table is generally generated after your FASTQ files have been aligned against the reference genome and quantified (not included in this pipeline). Please note that you will have to provide the un-normalized data as input. Using normalized data, will not work with this package. Instead of gene names you could also feed in the data with **ENSEMBL ID's**. No other form of ID's are supported at the moment. <br><br>
 *Example counts table:*<br>
-![Example counts table](/reference/figures/data.png)<br><br>
+![Example counts table](https://github.com/ajitjohnson/arseq/blob/master/inst/extdata/data.png)<br><br>
 
 #### Meta data
 A .csv file with information regarding the samples. It is absolutely critical that the columns of the count matrix and the rows of the meta data (information about samples) are in the same order. *arseq* will not make guesses as to which column of the count matrix belongs to which row of the meta data, these must be provided to *arseq* already in consistent order.<br><br>
 *Example meta data file:*<br>
-![Example counts table](/reference/figures/meta.png)
+![Example counts table](https://github.com/ajitjohnson/arseq/blob/master/inst/extdata/meta.png)
 
 ## How to use
 Install and load the package.
