@@ -1,6 +1,6 @@
 # *arseq*: An Automated RNASeq Analysis Pipeline
-This is a easy to use R package for *automated basic RNASeq analysis with minimal coding*, designed for experimental biologist with little to no coding experience. <br><br>
-For an in depth tutorial on how to use this package checkout the following [blog post](https://ajitjohnson.com/arseq).
+This is an easy to use R package for *automated basic RNASeq analysis with minimal coding requirement*. This package is designed to be used by biologists with little to no coding experience. <br><br>
+For an in depth tutorial checkout the following [blog post](https://ajitjohnson.com/arseq).
 
 ### The package currently supports the following analysis
 
@@ -23,16 +23,16 @@ For an in depth tutorial on how to use this package checkout the following [blog
   - GO enrichment of the differentially expressed genes
   - KEGG pathway enrichment of the differentially expressed genes
   - KEGG pathway diagrams of the top 5 enriched pathways
-  - GSEA analysis
+  - GSEA analysis (H, C1, C2, C3, C4, C5, C6, C7 genesets)
 
 ## Requirements
 #### Counts Table
-A .csv file with **un-normalized unique genes** as rows and samples as columns. Counts table is generally generated after your FASTQ files have been aligned against the reference genome and quantified (not included in this pipeline). Please note that you will have to provide the un-normalized data as input. Using normalized data, will not work with this package. Instead of gene names you could also feed in the data with **ENSEMBL ID's**. No other form of ID's are supported at the moment. <br><br>
+A CSV file with **un-normalized unique genes** as rows and samples as columns. Counts table is generally generated after your FASTQ files have been aligned against the reference genome and quantified (not included in this pipeline). Please note that you will have to provide the un-normalized data as input. Using normalized data, will not work with this package. Instead of gene names, you could also feed in the data with **ENSEMBL ID's**. No other form of ID's is supported at the moment. <br><br>
 *Example counts table:*<br>
 ![Example counts table](https://github.com/ajitjohnson/arseq/blob/master/inst/extdata/data.png)<br><br>
 
 #### Meta data
-A .csv file with information regarding the samples. It is absolutely critical that the columns of the count matrix and the rows of the meta data (information about samples) are in the same order. *arseq* will not make guesses as to which column of the count matrix belongs to which row of the meta data, these must be provided to *arseq* already in consistent order.<br><br>
+A CSV file with information regarding the samples. The columns of the count matrix and the rows of the meta data (information about samples) must be in the same order. *arseq* will not make guesses as to which column of the count matrix belongs to which row of the metadata, these must be provided to *arseq* already in a consistent order.<br><br>
 *Example meta data file:*<br>
 ![Example counts table](https://github.com/ajitjohnson/arseq/blob/master/inst/extdata/meta.png)
 
@@ -66,14 +66,14 @@ Run the analysis
 arseq (data = my_data, meta = my_meta, design = "treatment", contrast = list(A = c("control"), B= c("treatment1")))
 ```
 In the above command,<br><br>
-`design` is the column name of the meta data file that contains information regarding the groups you would like to perform differential expression on. You could pass more complex designs- Read documentation of [DESEq2](http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html) to understand it better. For example I have a column named treatment in my meta data file and it contains information regarding which samples are control samples and which samples were treated with different drugs. <br><br>
-`contrast` is another argument that you will need to specify. This is simply the groups of samples between which you would like to calculate the differentially expressed genes. It follows the following format `contrast = list(A = c(""), B= c(""))`.<br><br>
-Say you have three groups in your dataset- *Control, treatment-1 and treatment-2*<br><br>
-**Comparison- 1:** Identify the differentially expressed genes between *Control vs treatment-1*, then you would pass the contrast in the following manner `contrast = list(A = c("Control"), B= c("treatment-1"))`<br><br>
-**Comparison- 2:** Identify the differentially expressed genes between *Control vs treatment-1 + treatment-2*, then you would pass the contrast in the following manner `contrast = list(A = c("Control"), B= c("treatment-1", "treatment-2"))`
+`design` takes in the column name of the metadata file that contains information regarding the groups you would like to perform differential expression on. You could pass more complex designs- Read the documentation of [DESEq2](http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html). As an example, in the above image (metadata file), there a column named treatment that contains information regarding which samples are control samples and which samples were treated with different drugs. So if I want to identify the differentially expressed genes between the control samples and treated samples, I would pass  `design = "treatment"`. <br><br>
+`contrast` is another argument that you will need to specify. This is simply the groups of samples between which you would like to perform differential expression analysis. It follows the following format `contrast = list(A = c(" "), B= c(" "))`.<br><br>
+If you have three groups in your dataset- *Control, treatment-1 and treatment-2*<br><br>
+**Comparison- 1:** To identify the differentially expressed genes between *Control vs treatment-1*, you would pass the contrast in the following manner `contrast = list(A = c("Control"), B= c("treatment-1"))`<br><br>
+**Comparison- 2:** To identify the differentially expressed genes between *Control vs treatment-1 + treatment-2*, you would pass the contrast in the following manner `contrast = list(A = c("Control"), B= c("treatment-1", "treatment-2"))`
 
 ## Example dataset
-The package comes with an example dataset. In order to familiarise yourself with the package and its input requirements you could take a look at the example dataset.
+The package comes with an example dataset. In order to familiarise yourself with the package and its requirements you could play around with the example dataset.
 ```R
 # view the example counts table
 head(example_data)
@@ -98,7 +98,6 @@ If you found this package useful, please do cite this page in your publication. 
 
 ## Issues and Features
 If there are any issues please report it at https://github.com/ajitjohnson/arseq/issues
-
 
 ## Additional information
 For an in depth tutorial checkout the following [blog post](https://ajitjohnson.com/arseq).<br>

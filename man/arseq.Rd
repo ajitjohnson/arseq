@@ -8,23 +8,23 @@ arseq(data, meta, design, contrast, general.stats = TRUE,
   variable.genes = 1000)
 }
 \arguments{
-\item{data}{Un-normalized counts matrix (please note that you should NOT pass in normalized data matrix). Check example- head(example_data): \code{\link{example_data}}. The counts table should contain unique gene names as the first column. ENSEMBL ID's are also allowed but no other form of ID's are currently supported.}
+\item{data}{Un-normalized counts matrix (please note that you should NOT pass in normalized data).  The counts' table should contain unique gene names as the first column. ENSEMBL ID's are also allowed but no other form of ID's are currently supported. Check example- head(example_data): \code{\link{example_data}}.}
 
-\item{meta}{Meta data. A csv file with the first column containing the sample names (exactly the same as your counts martix and in the same order). The consecutive columns can be meta information about the samples (at least one additional column is compulsory with information regaring the groups the sample belong to e.g- control/treatment). Check example- head(example_meta).}
+\item{meta}{A CSV file with information regarding the samples. It is absolutely critical that the columns of the counts' matrix and the rows of the metadata are in the same order. The function will not make guesses as to which column of the count matrix belongs to which row of the metadata, these must be provided in a consistent order. Check example- head(example_meta): \code{\link{example_meta}}.}
 
-\item{design}{a formula which expresses how the counts for each gene depend on your metadata. Check DESeq2 documentation for designing the formula. In general you pass in a column name (e.g. treatment) of your metadata file which has your groups of interest or a combination of column names ((e.g. treatment + cell_type).}
+\item{design}{The formula that expresses how the counts for each gene depend on your metadata (used to calculate the necessary data for differential gene expression analysis). Check DESeq2 documentation for designing the formula. In general, you pass in a column name (e.g. treatment) of your metadata file or a combination of column names (e.g. treatment + cell_type).}
 
-\item{contrast}{Names of the groups that you would like to compare. It could be between two groups e.g.- control vs treatment or it could be a comparision between multiple groups (groupA+groupB vs groupC). In any case it needs to follow the following format- "contrast = list(A = c(""), B= c(""))". In the first case where you have only two groups i.e. control vs treatment, you will do the following: "contrast = list(A = c("control"), B= c("treatment"))". In situations where you have multiple groups to compare- e.g. groupA+groupB vs groupC, you will do the following- "contrast = list(A = c("groupA","groupB), B= c("groupC"))".}
+\item{contrast}{Information regarding the groups between which you would like to perform differential gene expression analysis. It could be between two groups or between multiple groups and needs to follow the following format: contrast = list(A = c(" "), B= c(" ")). If you are comparing two groups (e.g. control vs treatment), the constrast argument should look like the following: contrast = list(A = c("control"), B= c("treatment")). In situations where you have multiple groups to compare- (e.g. control vs treatment1 and treatment2), you should do the following- contrast = list(A = c("control"), B= c("treatment1", "treatment2")).}
 
-\item{general.stats}{TRUE or FALSE. TRUE would run the general stat module (PCA, MDS, etc.. for your entire dataset). If you are making multiple comparisons using the contrast argument, run  general.stats = TRUE for the first time and change it to general.stats = FALSE for the subsequent comparisons to speed up the analysis.}
+\item{general.stats}{TRUE/FALSE. When passed in TRUE, the program would run the general stat modules on the entire dataset. If you are planning to perform multiple comparisons using the contrast argument, run  general.stats = TRUE for the first time and then change it to general.stats = FALSE for the subsequent comparisons to speed up the analysis.}
 
-\item{variable.genes}{Number of variable genes to be identified. By default the program identifies the top 1000 most variable genes.}
+\item{variable.genes}{numeric: The number of most variable genes to be identified. By default, the program identifies the top 1000 most variable genes.}
 }
 \value{
-All analysis results will be stored within a folder named "arseq" within your working directory.
+The program does not return anything to the R environment. All analysis results will be stored under a folder named "arseq" within your working directory.
 }
 \description{
-An easy to use pipeline for analysing RNA Seq data.The package currently supports the following analysis- Differential gene expression analysis using DESeq2, Calculate the most variable genes, PCA analysis, GO enrichment of the differentially expressed genes, KEGG pathway enrichment of the differentially expressed genes, GSEA analysis.
+An easy to use pipeline for analysing RNA Seq data. The package currently supports the following analysis- Differential gene expression analysis using DESeq2, Calculate the most variable genes, PCA analysis, GO enrichment of the differentially expressed genes, KEGG pathway enrichment of the differentially expressed genes, GSEA analysis.
 }
 \examples{
 \dontrun{
