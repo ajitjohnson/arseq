@@ -32,6 +32,7 @@
 #' @import utils
 #' @import grDevices
 #' @import graphics
+#' @import rJava
 #' @importFrom AnnotationDbi mapIds
 #' @importFrom stats aggregate as.formula cmdscale complete.cases dist hclust na.omit prcomp
 #' @examples
