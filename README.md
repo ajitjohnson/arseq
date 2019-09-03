@@ -41,7 +41,7 @@ Install and load the package.
 ```R
 # For developmental version
 if( !require(devtools) ) install.packages("devtools")
-devtools::install_github( "ajitjohnson/arseq" )
+devtools::install_github( "ajitjohnson/arseq", INSTALL_opts = "--no-multiarch")
 
 # For stable version
 install.packages("arseq")
