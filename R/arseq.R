@@ -192,7 +192,9 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
   dds$arseq.group <- mapvalues(dds$arseq.group, from=contrast[[2]], to=rep(paste(unlist(contrast[[2]]), collapse="_"),length(contrast[[2]])))
 
   # Subset the normalized matrix and dds based on the groups of interest
-  n_data_goi <- data.frame(n_data[,unique(grep(paste(groups,collapse="|"), colnames(n_data), value=TRUE))])
+  colums_to_subset <- row.names(meta[meta$arseq.group %in% groups,,drop=FALSE]) # Changed
+  n_data_goi <- data.frame(n_data[,colums_to_subset])
+  #n_data_goi <- data.frame(n_data[,unique(grep(paste(groups,collapse="|"), colnames(n_data), value=TRUE))])
   dds_subset <- dds[ , dds$arseq.group %in% goi ]
   dds_subset$arseq.group <- factor(dds_subset$arseq.group)
 
