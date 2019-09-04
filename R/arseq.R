@@ -117,7 +117,7 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
     # General structure of the dataset
     print("Computing general structure of the entire dataset")
     # Sample to sample distance
-    vsd <- varianceStabilizingTransformation (dds, blind = FALSE)
+    vsd <- varianceStabilizingTransformation(dds, blind = FALSE)
     print("Calculating the Euclidean distance between samples")
     sampleDists <- dist(t(vsd@assays$data[[1]]))
     sampleDistMatrix <- as.matrix( sampleDists )
