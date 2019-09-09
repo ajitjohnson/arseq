@@ -207,7 +207,14 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
   print("Saving the differentially expressed genes")
   write.csv(deg, file = paste(location,"Differential expression/",goi[1], " vs ", goi[2],".csv",sep = ""))
   # Subset the significant genes from deg and subset the rows of n_data based on those genes and columns based on goi
-  deg_heatmap <- data.frame(deg[order(deg$log2FoldChange),])
+  deg_heatmap <- data.frame(deg[which(deg$padj <= 0.05), ])
+  # Identify the top 500 genes for the heatmap
+  if (nrow(deg_heatmap) > 500){
+    deg_heatmap <- deg_heatmap[order(deg_heatmap$padj),][1:500,]
+  }
+  # Order the dataframe based on fold change
+  deg_heatmap <- deg_heatmap[order(deg_heatmap$log2FoldChange),]
+  # Get the matrix
   deg_heatmap <- n_data_goi[row.names(deg_heatmap[which(deg_heatmap$padj <= 0.05), ]), ]
   # Create the grouping for coloring
   my_group = factor(dds_subset$arseq.group)
@@ -216,8 +223,8 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
   # Save the heatmap
   print("Generating heatmap of the diferentially expressed genes")
   pdf(paste(location,"Differential expression/","DEG Heatmap- ",goi[1], " vs ", goi[2],".pdf",sep = ""),width=6,height=6,paper='special')
-  heatmap.2(as.matrix(deg_heatmap), Rowv = NA, scale="row",
-            col =coul, hclustfun = hclust,trace="none",
+  heatmap.2(as.matrix(deg_heatmap), Rowv = NA, Colv = NA, scale="row",
+            col =coul, trace="none",main="Top 500 Differentially Expressed Genes",
             dendrogram= "none",ColSideColors=my_col,
             margins = c(10,5))
   dev.off()
