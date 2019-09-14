@@ -17,7 +17,6 @@
 #' @import KEGGREST
 #' @import fgsea
 #' @import msigdbr
-#' @import xlsx
 #' @importFrom biomaRt useEnsembl getBM
 #' @import RColorBrewer
 #' @import pheatmap
@@ -36,7 +35,7 @@
 #' @importFrom stats aggregate as.formula cmdscale complete.cases dist hclust na.omit prcomp
 #' @examples
 #' \dontrun{
-#' contrast = list(A = c("control"), B= c("treatment1"))
+#' contrast = list(A = c("control"), B= c("drug_A"))
 #' arseq (data = example_data,meta = example_meta, design = "treatment", contrast = contrast)
 #' }
 #' @export
@@ -520,14 +519,14 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
   fgsea_plot (fgsea_result=fgsea_c7,geneset,r_list,analysis="geneset_C7")
 
   # Save all results
-  suppressWarnings(write.xlsx(as(fgsea_h1, "data.frame")[,-ncol(as(fgsea_h1, "data.frame"))], file = paste(location,"GSEA analysis/","GSEA Analysis- ",goi[1], " vs ", goi[2],".xlsx",sep = ""), sheetName="H1 geneset", row.names=FALSE))
-  suppressWarnings(write.xlsx(as(fgsea_c1, "data.frame")[,-ncol(as(fgsea_c1, "data.frame"))], file = paste(location,"GSEA analysis/","GSEA Analysis- ",goi[1], " vs ", goi[2],".xlsx",sep = ""), sheetName="C1 geneset", append=TRUE, row.names=FALSE))
-  suppressWarnings(write.xlsx(as(fgsea_c2, "data.frame")[,-ncol(as(fgsea_c2, "data.frame"))], file = paste(location,"GSEA analysis/","GSEA Analysis- ",goi[1], " vs ", goi[2],".xlsx",sep = ""), sheetName="C2 geneset", append=TRUE, row.names=FALSE))
-  suppressWarnings(write.xlsx(as(fgsea_c3, "data.frame")[,-ncol(as(fgsea_c3, "data.frame"))], file = paste(location,"GSEA analysis/","GSEA Analysis- ",goi[1], " vs ", goi[2],".xlsx",sep = ""), sheetName="C3 geneset", append=TRUE, row.names=FALSE))
-  suppressWarnings(write.xlsx(as(fgsea_c4, "data.frame")[,-ncol(as(fgsea_c4, "data.frame"))], file = paste(location,"GSEA analysis/","GSEA Analysis- ",goi[1], " vs ", goi[2],".xlsx",sep = ""), sheetName="C4 geneset", append=TRUE, row.names=FALSE))
-  suppressWarnings(write.xlsx(as(fgsea_c5, "data.frame")[,-ncol(as(fgsea_c5, "data.frame"))], file = paste(location,"GSEA analysis/","GSEA Analysis- ",goi[1], " vs ", goi[2],".xlsx",sep = ""), sheetName="C5 geneset", append=TRUE, row.names=FALSE))
-  suppressWarnings(write.xlsx(as(fgsea_c6, "data.frame")[,-ncol(as(fgsea_c6, "data.frame"))], file = paste(location,"GSEA analysis/","GSEA Analysis- ",goi[1], " vs ", goi[2],".xlsx",sep = ""), sheetName="C6 geneset", append=TRUE, row.names=FALSE))
-  suppressWarnings(write.xlsx(as(fgsea_c7, "data.frame")[,-ncol(as(fgsea_c7, "data.frame"))], file = paste(location,"GSEA analysis/","GSEA Analysis- ",goi[1], " vs ", goi[2],".xlsx",sep = ""), sheetName="C7 geneset", append=TRUE, row.names=FALSE))
+  write.csv(as(fgsea_h1, "data.frame")[,-ncol(as(fgsea_h1, "data.frame"))], file = paste(location,"GSEA analysis/","GSEA Analysis- H1 geneset ",goi[1], " vs ", goi[2],".csv",sep = ""))
+  write.csv(as(fgsea_c1, "data.frame")[,-ncol(as(fgsea_c1, "data.frame"))], file = paste(location,"GSEA analysis/","GSEA Analysis- C1 geneset ",goi[1], " vs ", goi[2],".csv",sep = ""))
+  write.csv(as(fgsea_c2, "data.frame")[,-ncol(as(fgsea_c2, "data.frame"))], file = paste(location,"GSEA analysis/","GSEA Analysis- C2 geneset ",goi[1], " vs ", goi[2],".csv",sep = ""))
+  write.csv(as(fgsea_c3, "data.frame")[,-ncol(as(fgsea_c3, "data.frame"))], file = paste(location,"GSEA analysis/","GSEA Analysis- C3 geneset ",goi[1], " vs ", goi[2],".csv",sep = ""))
+  write.csv(as(fgsea_c4, "data.frame")[,-ncol(as(fgsea_c4, "data.frame"))], file = paste(location,"GSEA analysis/","GSEA Analysis- C4 geneset ",goi[1], " vs ", goi[2],".csv",sep = ""))
+  write.csv(as(fgsea_c5, "data.frame")[,-ncol(as(fgsea_c5, "data.frame"))], file = paste(location,"GSEA analysis/","GSEA Analysis- C5 geneset ",goi[1], " vs ", goi[2],".csv",sep = ""))
+  write.csv(as(fgsea_c6, "data.frame")[,-ncol(as(fgsea_c6, "data.frame"))], file = paste(location,"GSEA analysis/","GSEA Analysis- C6 geneset ",goi[1], " vs ", goi[2],".csv",sep = ""))
+  write.csv(as(fgsea_c7, "data.frame")[,-ncol(as(fgsea_c7, "data.frame"))], file = paste(location,"GSEA analysis/","GSEA Analysis- C7 geneset ",goi[1], " vs ", goi[2],".csv",sep = ""))
 
   print(paste("Well done- your analysis is now complete. Head over to [[", getwd(), "]] to view your results"))
 }

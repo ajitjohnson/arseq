@@ -28,7 +28,7 @@ An easy to use pipeline for analysing RNA Seq data. The package currently suppor
 }
 \examples{
 \dontrun{
-contrast = list(A = c("control"), B= c("treatment1"))
+contrast = list(A = c("control"), B= c("drug_A"))
 arseq (data = example_data,meta = example_meta, design = "treatment", contrast = contrast)
 }
 }

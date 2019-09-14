@@ -1,7 +1,7 @@
 Package: arseq
 Type: Package
 Title: Automated RNASeq Analysis Pipeline 
-Version: 1.0.13
+Version: 1.1.0
 Author: Ajit Johnson Nirmal
 Maintainer: Ajit Johnson Nirmal <ajitjohnson.n@gmail.com>
 Description: This is a easy to use R package for automated basic analysis of RNASeq data with minimal coding. This package has been designed for experimental biologist with little to no coding experience. The package currently supports the following analysis. 
@@ -43,7 +43,6 @@ Imports:
   KEGGREST (>= 1.22),
   fgsea (>= 1.8),
   msigdbr (>= 6.2),
-  xlsx (>= 0.6),
   biomaRt (>= 2.38),
   RColorBrewer (>= 1.1),
   pheatmap (>= 1.0),
