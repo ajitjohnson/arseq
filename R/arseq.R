@@ -147,7 +147,7 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
 
     #PCA plot
     print("Performing a PCA analysis")
-    pca.plot <- plotPCA (vsd,intgroup = "arseq.group") + geom_text_repel(aes(label = name),size = 3)
+    pca.plot <- plotPCA (vsd,intgroup = "arseq.group") + geom_text_repel(aes(label = .data$name),size = 3)
     pdf("ARSeq/General stats/PCA plot.pdf",width=6,height=6,paper='special')
     plot(pca.plot)
     dev.off()
@@ -266,7 +266,7 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
   # PCA
   print("Performing Principal Component Analysis (PCA) between the constrast groups")
 
-  pca.plot <- plotPCA (vsd_subset,intgroup = "arseq.group") + geom_text_repel(aes(label = name),size = 3)
+  pca.plot <- plotPCA (vsd_subset,intgroup = "arseq.group") + geom_text_repel(aes(label = .data$name),size = 3)
   pdf(paste(location,"Sample relation plots/","PCA- ",goi[1], " vs ", goi[2],".pdf",sep = ""),width=6,height=6,paper='special')
   plot(pca.plot)
   dev.off()
@@ -344,7 +344,7 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
   GO.plot$term <- factor(GO.plot$term, levels = GO.plot$term) # to avoid re-ordering
   for (i in levels(as.factor(GO.plot$ontology))){
     GO.plot_subset <- GO.plot[GO.plot$ontology %in% i,]
-    p<-ggplot(data=GO.plot_subset, aes(x=term, y=p.val,fill=direction)) +
+    p<-ggplot(data=GO.plot_subset, aes(x=.data$term, y=.data$p.val,fill=.data$direction)) +
       geom_bar(stat="identity")+ geom_hline(yintercept = 3)+
       coord_flip()+ theme_bw()+ theme(legend.position="bottom",legend.title = element_blank(), axis.text=element_text(size=12)) +
       ggtitle(paste(i, "- Top 5"))+
@@ -381,10 +381,10 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
   # Individual pathway figures for the top 5 pathways
   # Get the pathways
   keggrespathways_up = data.frame(id=rownames(keggres$greater), keggres$greater) %>% tbl_df() %>%
-    dplyr::filter(q.val<=0.05) %>% dplyr::filter(row_number()<=5) %>% .$id %>% as.character()
+    dplyr::filter(.data$q.val<=0.05) %>% dplyr::filter(row_number()<=5) %>% .$id %>% as.character()
 
   keggrespathways_down = data.frame(id=rownames(keggres$less), keggres$less) %>% tbl_df() %>%
-    dplyr::filter(q.val<=0.05) %>% dplyr::filter(row_number()<=5) %>% .$id %>% as.character()
+    dplyr::filter(.data$q.val<=0.05) %>% dplyr::filter(row_number()<=5) %>% .$id %>% as.character()
   # collate the pathways
   keggrespathways = c(keggrespathways_up, keggrespathways_down)
   # Get the IDs.
@@ -417,7 +417,7 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
   kegg.plot$Name <- substring(kegg.plot$Name, 10)
   kegg.plot$Name <- factor(kegg.plot$Name, levels = kegg.plot$Name) # to avoid re-ordering
 
-  kegg_plot<-ggplot(data=kegg.plot, aes(x=Name, y=adjp.val,fill=direction)) +
+  kegg_plot<-ggplot(data=kegg.plot, aes(x=.data$Name, y=.data$adjp.val,fill=.data$direction)) +
     geom_bar(stat="identity")+ geom_hline(yintercept = 3)+
     coord_flip()+ theme_bw()+ theme(legend.position="bottom",legend.title = element_blank(), axis.text=element_text(size=12)) +
     ggtitle("Top 10 KEGG Pathways")+
@@ -457,8 +457,8 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
     fgsea_sorted <- rbind(fgsea_result[1:10,], fgsea_result[(nrow(fgsea_result)-9):nrow(fgsea_result),])
     fgsea_sorted <- fgsea_sorted[order(fgsea_sorted$NES),]
     fgsea_sorted$pathway <- factor(fgsea_sorted$pathway , levels = fgsea_sorted$pathway )
-    gsea.plot <- ggplot(data=fgsea_sorted, aes(x=pathway, y=NES)) +
-      geom_col(aes(fill=padj<0.05)) +
+    gsea.plot <- ggplot(data=fgsea_sorted, aes(x=.data$pathway, y=.data$NES)) +
+      geom_col(aes(fill=.data$padj<0.05)) +
       coord_flip() +
       labs(x="Pathway", y="Normalized Enrichment Score",
            title="Top 10 most and least enriched sets") +
