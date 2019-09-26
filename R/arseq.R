@@ -49,13 +49,22 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
 
   # Figure out the contrast column programatically
   colum.names <- c()
+  statements <- c()
   for (i in 1: length(groups)){
     colum.names <- c(colum.names,colnames(meta[, which(meta == groups[i], arr.ind=T)[1,][[2]], drop=FALSE]))
   }
+  # IF the groups of interest are found in multiple colums; find if any one column that contains all groups of interest
+  for(i in colum.names){statements <- c(statements,all(groups %in% meta[,i]))}
+  for(i in colum.names){if (all(groups %in% meta[,i])){con = i}}
+
   if (all(colum.names == colum.names[1])){
     contrast.by = colum.names[1]
     # Remname the column with contrast information to arseq.group
     colnames(meta)[which(colnames(meta) == contrast.by)] <- "arseq.group"
+  }else if (any(statements)){
+    contrast.by = con
+    colnames(meta)[which(colnames(meta) == contrast.by)] <- "arseq.group"
+    print(paste("Meta Data column that has been chosen for contrast determination is [[",con,"]]"))
   }else{stop('All of your contrast groups for Differntial expression analysis need to be listed under the same column within your metadata file')}
 
   # resolving design
