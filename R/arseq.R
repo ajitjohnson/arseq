@@ -5,6 +5,7 @@
 #' @param design The formula that expresses how the counts for each gene depend on your metadata (used to calculate the necessary data for differential gene expression analysis). Check DESeq2 documentation for designing the formula. In general, you pass in a column name (e.g. treatment) of your metadata file or a combination of column names (e.g. treatment + cell_type).
 #' @param contrast Information regarding the groups between which you would like to perform differential gene expression analysis. It could be between two groups or between multiple groups and needs to follow the following format: contrast = list(A = c(" "), B= c(" ")). If you are comparing two groups (e.g. control vs treatment), the constrast argument should look like the following: contrast = list(A = c("control"), B= c("treatment")). In situations where you have multiple groups to compare- (e.g. control vs treatment1 and treatment2), you should do the following- contrast = list(A = c("control"), B= c("treatment1", "treatment2")).
 #' @param variable.genes numeric: The number of most variable genes to be identified. By default, the program identifies the top 1000 most variable genes.
+#' @param folder.name Custom folder name that you would like to save your results in.
 #' @param general.stats TRUE/FALSE. When passed in TRUE, the program would run the general stat modules on the entire dataset. If you are planning to perform multiple comparisons using the contrast argument, run  general.stats = TRUE for the first time and then change it to general.stats = FALSE for the subsequent comparisons to speed up the analysis.
 #' @return The program does not return anything to the R environment. All analysis results will be stored under a folder named "arseq" within your working directory.
 #' @import DESeq2
@@ -40,7 +41,7 @@
 #' }
 #' @export
 
-arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.genes=1000){
+arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.genes=1000, folder.name="ARSeq"){
 
   # Resolve the contrasts and design
   goi <-  c(paste(unlist(contrast[[1]]), collapse="_"),paste(unlist(contrast[[2]]), collapse="_"))
@@ -63,11 +64,11 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
   design <- as.formula(design)
 
   # Creating a folder to save results
-  print("Creating an 'ARSeq' folder to store your analysis results")
-  suppressWarnings(dir.create("ARSeq"))
-  suppressWarnings(dir.create("ARSeq/General stats"))
-  suppressWarnings(dir.create(paste("ARSeq/",goi[1], " vs ", goi[2],sep = "")))
-  location <- paste("ARSeq/",goi[1], " vs ", goi[2],"/",sep = "")
+  print("Creating a folder to store your analysis results")
+  suppressWarnings(dir.create(folder.name))
+  suppressWarnings(dir.create(paste(folder.name,"/General stats",sep = "")))
+  suppressWarnings(dir.create(paste(folder.name,"/",goi[1], " vs ", goi[2],sep = "")))
+  location <- paste(folder.name,"/",goi[1], " vs ", goi[2],"/",sep = "")
   suppressWarnings(dir.create(paste(location,"Differential expression/",sep = "")))
   suppressWarnings(dir.create(paste(location,"Sample relation plots",sep = "")))
   suppressWarnings(dir.create(paste(location,"GO enrichment analysis/",sep = "")))
@@ -77,7 +78,7 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
   # If data is based of ENSEMBL ID convert it to gene names
   if (all(substr(row.names(data),1,3) == "ENS")){
     print("Converting ENSEMBL ID's to gene names")
-    ensembl = useEnsembl(biomart="ensembl", dataset="hsapiens_gene_ensembl")
+    ensembl = useEnsembl(biomart="ensembl", dataset="hsapiens_gene_ensembl",mirror ="useast")
     genes <- getBM(attributes=c('ensembl_gene_id','hgnc_symbol'), mart = ensembl)
     data_m <- merge(data, genes, by.x="row.names", by.y= "ensembl_gene_id")[,-1]
     data_m <- data_m[!(data_m$hgnc_symbol==""), ]
@@ -92,6 +93,10 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
   print("Removing genes that are not expressed: if any")
   data <- data[rowSums(data) > 0, ]
 
+  # Rearrange the samples
+  meta <- meta[order(meta$arseq.group),]
+  data <- data[,row.names(meta)]
+
   # Generate the DESEq2 data object
   print("Generating the DESeq object")
   dds <- DESeqDataSetFromMatrix(countData = data, colData = meta, design = design)
@@ -100,7 +105,7 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
   # Get the normalized matrix for heatmaps
   print("Normalizing data and saving the normalized data")
   n_data <- log2(counts(dds, normalized=TRUE)+1)
-  write.csv(n_data, file = paste("ARSeq/normalized_data",".csv",sep = ""))
+  write.csv(n_data, file = paste(folder.name,"/normalized_data",".csv",sep = ""))
 
   # Common function
   save_pheatmap_pdf <- function(x, filename, width=7, height=7) {
@@ -129,7 +134,7 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
                             color = inferno(50),
                             main = "Euclidean distance between samples")
 
-    save_pheatmap_pdf(euclid_dist, "ARSeq/General stats/Euclidean distance.pdf")
+    save_pheatmap_pdf(euclid_dist, paste(folder.name,"/General stats/Euclidean distance.pdf",sep=""))
 
     # Poisson Distance
     print("Calculating the Poisson distance between samples")
@@ -143,12 +148,12 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
                          border_color = NA,
                          color = inferno(50),
                          main = "Poisson distance between samples")
-    save_pheatmap_pdf(poi_dist, "ARSeq/General stats/Poisson distance.pdf")
+    save_pheatmap_pdf(poi_dist, paste(folder.name,"/General stats/Poisson distance.pdf",sep=""))
 
     #PCA plot
     print("Performing a PCA analysis")
     pca.plot <- plotPCA (vsd,intgroup = "arseq.group") + geom_text_repel(aes(label = .data$name),size = 3)
-    pdf("ARSeq/General stats/PCA plot.pdf",width=6,height=6,paper='special')
+    pdf(paste(folder.name,"/General stats/PCA plot.pdf", sep=""),width=6,height=6,paper='special')
     plot(pca.plot)
     dev.off()
 
@@ -156,7 +161,7 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
     pca = prcomp(n_data, center=TRUE, scale=TRUE)
     pca <- data.frame(pca$x)
     pca <- pca[order(-pca[,1]),]
-    write.csv(pca, file = "ARSeq/General stats/PCA Eigenvectors.csv")
+    write.csv(pca, file = paste(folder.name,"/General stats/PCA Eigenvectors.csv",sep=""))
 
     # MSD plot
     print("Performing a multidimensional scaling (MDS) analysis")
@@ -164,7 +169,7 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
     mds.plot <- ggplot(mds, aes_string(x = mds$`1`, y = mds$`2`, color = "arseq.group" )) +
       geom_point(size = 3) + coord_fixed()+ geom_text_repel(aes(label = rownames(mds)),size = 3)+
       theme(legend.title = element_blank())
-    pdf("ARSeq/General stats/MDS plot.pdf",width=6,height=6,paper='special')
+    pdf(paste(folder.name,"/General stats/MDS plot.pdf",sep=""),width=6,height=6,paper='special')
     plot(mds.plot)
     dev.off()
 
@@ -172,12 +177,12 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
     print("Identifying the most variable genes in your dataset")
     data.var <- apply(n_data, 1, stats::var)
     var.genes <- n_data[order(data.var, decreasing = TRUE)[1:variable.genes],]
-    write.csv(var.genes, file = "ARSeq/General stats/most variable genes.csv")
+    write.csv(var.genes, file = paste(folder.name,"/General stats/most variable genes.csv",sep=""))
     # Heatmap of the most variable genes
     my_group = factor(meta[,"arseq.group"])
     my_col = brewer.pal(length(levels(factor(meta[,"arseq.group"]))), "Set1")[my_group]
     coul = colorRampPalette(brewer.pal(9,"OrRd"))(10)
-    pdf("ARSeq/General stats/Heatmap of the most variable genes.pdf",width=6,height=6,paper='special')
+    pdf(paste(folder.name,"/General stats/Heatmap of the most variable genes.pdf",sep=""),width=6,height=6,paper='special')
     heatmap.2(as.matrix(var.genes), Colv = NA, scale="row",
               col =coul, hclustfun = hclust,trace="none",
               dendrogram= "row",ColSideColors=my_col,
@@ -207,25 +212,26 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
   write.csv(deg, file = paste(location,"Differential expression/",goi[1], " vs ", goi[2],".csv",sep = ""))
   # Subset the significant genes from deg and subset the rows of n_data based on those genes and columns based on goi
   deg_heatmap <- data.frame(deg[which(deg$padj <= 0.05), ])
+  #deg_heatmap <- deg_heatmap[order(-deg_heatmap$padj),]
   # Identify the top 500 genes for the heatmap
-  if (nrow(deg_heatmap) > 500){
-    deg_heatmap <- deg_heatmap[order(deg_heatmap$padj),][1:500,]
+  if (nrow(deg_heatmap) > 200){
+    deg_heatmap <- deg_heatmap[order(deg_heatmap$padj),][1:200,]
   }
   # Order the dataframe based on fold change
   deg_heatmap <- deg_heatmap[order(deg_heatmap$log2FoldChange),]
   # Get the matrix
-  deg_heatmap <- n_data_goi[row.names(deg_heatmap[which(deg_heatmap$padj <= 0.05), ]), ]
+  deg_heatmap <- n_data_goi[row.names(deg_heatmap), ]
   # Create the grouping for coloring
   my_group = factor(dds_subset$arseq.group)
   my_col = suppressWarnings(brewer.pal(length(levels(factor(dds_subset$arseq.group))), "Set1")[my_group])
   coul = colorRampPalette(brewer.pal(9,"OrRd"))(10)
   # Save the heatmap
   print("Generating heatmap of the diferentially expressed genes")
-  pdf(paste(location,"Differential expression/","DEG Heatmap- ",goi[1], " vs ", goi[2],".pdf",sep = ""),width=6,height=6,paper='special')
+  pdf(paste(location,"Differential expression/","DEG Heatmap- ",goi[1], " vs ", goi[2],".pdf",sep = ""),width=20,height=20,paper='special')
   heatmap.2(as.matrix(deg_heatmap), Rowv = NA, Colv = NA, scale="row",
-            col =coul, trace="none",main="Top 500 Differentially Expressed Genes",
-            dendrogram= "none",ColSideColors=my_col,
-            margins = c(10,5))
+            col =coul, trace="none",main="Top 200 Differentially Expressed Genes",
+            dendrogram= "none",ColSideColors=my_col,cexCol = 2,
+            margins = c(10,8))
   dev.off()
 
   # Euclidean distance
@@ -301,6 +307,9 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
                   ylab = bquote(~-Log[10]~adjusted~italic(P)),
                   pCutoff = 0.01,
                   FCcutoff = 2.0,
+                  gridlines.minor = FALSE,
+                  gridlines.major = FALSE,
+                  border = 'full',
                   transcriptLabSize = 4.0,
                   transcriptPointSize = 2.0,
                   colAlpha = 1,
@@ -309,7 +318,7 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
                   legendPosition = 'bottom',
                   legendIconSize = 3.0)
   print("Saving the Volcano plot")
-  pdf(paste(location,"Sample relation plots/","Volcano Plot- ",goi[1], " vs ", goi[2],".pdf",sep = ""),width=8,height=8,paper='special')
+  pdf(paste(location,"Sample relation plots/","Volcano Plot- ",goi[1], " vs ", goi[2],".pdf",sep = ""),width=14,height=14,paper='special')
   plot(volcano.plot)
   dev.off()
 
