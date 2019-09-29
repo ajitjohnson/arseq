@@ -5,7 +5,7 @@
 \title{Automated RNASeq Analysis Pipeline}
 \usage{
 arseq(data, meta, design, contrast, general.stats = TRUE,
-  variable.genes = 1000)
+  variable.genes = 1000, folder.name = "ARSeq")
 }
 \arguments{
 \item{data}{Un-normalized counts matrix (please note that you should NOT pass in normalized data).  The counts' table should contain unique gene names as the first column. ENSEMBL ID's are also allowed but no other form of ID's are currently supported. Check example- head(example_data): \code{\link{example_data}}.}
@@ -19,6 +19,8 @@ arseq(data, meta, design, contrast, general.stats = TRUE,
 \item{general.stats}{TRUE/FALSE. When passed in TRUE, the program would run the general stat modules on the entire dataset. If you are planning to perform multiple comparisons using the contrast argument, run  general.stats = TRUE for the first time and then change it to general.stats = FALSE for the subsequent comparisons to speed up the analysis.}
 
 \item{variable.genes}{numeric: The number of most variable genes to be identified. By default, the program identifies the top 1000 most variable genes.}
+
+\item{folder.name}{Custom folder name that you would like to save your results in.}
 }
 \value{
 The program does not return anything to the R environment. All analysis results will be stored under a folder named "arseq" within your working directory.
