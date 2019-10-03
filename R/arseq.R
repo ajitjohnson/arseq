@@ -41,7 +41,7 @@
 #' }
 #' @export
 
-arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.genes=1000, folder.name="ARSeq"){
+arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.genes=1000, folder.name="ARSeq", custom.gsea=NULL){
 
   # Resolve the contrasts and design
   goi <-  c(paste(unlist(contrast[[1]]), collapse="_"),paste(unlist(contrast[[2]]), collapse="_"))
@@ -221,7 +221,6 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
   write.csv(deg, file = paste(location,"Differential expression/",goi[1], " vs ", goi[2],".csv",sep = ""))
   # Subset the significant genes from deg and subset the rows of n_data based on those genes and columns based on goi
   deg_heatmap <- data.frame(deg[which(deg$padj <= 0.05), ])
-  #deg_heatmap <- deg_heatmap[order(-deg_heatmap$padj),]
   # Identify the top 500 genes for the heatmap
   if (nrow(deg_heatmap) > 200){
     deg_heatmap <- deg_heatmap[order(deg_heatmap$padj),][1:200,]
@@ -333,8 +332,8 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
 
   # GO enrichment analysis for the DEG's
   print("Performing GO enrichment analysis between the constrast groups")
-
-  gene.vector=as.integer(row.names(data.frame(deg))%in%row.names(deg_heatmap))
+  diff_genes <- data.frame(deg[which(deg$padj <= 0.05), ])
+  gene.vector=as.integer(row.names(data.frame(deg))%in%row.names(diff_genes))
   names(gene.vector)=row.names(data.frame(deg))
   # Prepare for goseq (gene length data for the DEG's)
   pwf=suppressWarnings(nullp(gene.vector,"hg19","geneSymbol"))
@@ -488,6 +487,11 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
     geneset = geneset %>% split(x = .$gene_symbol, f = .$gs_name)
     gsea<- suppressWarnings(fgsea(pathways = geneset, stats = r_list, nperm=1000))
     fgsea_result<- gsea[with(gsea, order(padj, -NES)), ]
+    # Leading edge conversion
+    leadingEdge  <- do.call(rbind.data.frame, fgsea_result$leadingEdge)
+    colnames(leadingEdge) <- seq(1:ncol(leadingEdge))
+    fgsea_table <- as(fgsea_result, "data.frame")[,-ncol(as(fgsea_result, "data.frame"))]
+    fgsea_table <- cbind(fgsea_table,leadingEdge)
     # Create a new folder to save the reusults
     suppressWarnings(dir.create(paste(location,"GSEA analysis/",category,"/",sep = "")))
     # Make a plot
@@ -508,23 +512,15 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
       plot(gsea.plot)
       dev.off()
       # Save results
-      write.csv(as(fgsea_result, "data.frame")[,-ncol(as(fgsea_result, "data.frame"))], file = paste(location,"GSEA analysis/",category,"/",subcategory,"-",goi[1], " vs ", goi[2],".csv",sep = ""))
+      write.csv(fgsea_table, file = paste(location,"GSEA analysis/",category,"/",subcategory,"-",goi[1], " vs ", goi[2],".csv",sep = ""))
 
     }
   # H1
   print("Performing GSEA with Hallmark gene sets")
   fgsea_analysis (geneset=geneset_h,r_list=r_list,category="Hallmark gene sets",subcategory="H_geneset")
-  # geneset = geneset_h %>% split(x = .$gene_symbol, f = .$gs_name)
-  # fgsea_h1<- suppressWarnings(fgsea(pathways = geneset, stats = r_list, nperm=1000))
-  # fgsea_h1<- fgsea_h1[with(fgsea_h1, order(padj, -NES)), ]
-  # fgsea_plot (fgsea_result=fgsea_h1,geneset,r_list,analysis="geneset_H")
   # C1
   print("Performing GSEA with C1: Positional gene sets")
   fgsea_analysis (geneset=geneset_c1,r_list=r_list,category="Positional gene sets",subcategory="C1_geneset")
-  # geneset = geneset_c1 %>% split(x = .$gene_symbol, f = .$gs_name)
-  # fgsea_c1<- suppressWarnings(fgsea(pathways = geneset, stats = r_list, nperm=1000))
-  # fgsea_c1<- fgsea_c1[with(fgsea_c1, order(padj, -NES)), ]
-  # fgsea_plot (fgsea_result=fgsea_c1,geneset,r_list,analysis="geneset_C1")
   # C2
   print("Performing GSEA with C2: Curated gene sets")
   fgsea_analysis (geneset=geneset_c2_CGP,r_list=r_list,category="Curated gene sets",subcategory="CGP")
@@ -532,59 +528,72 @@ arseq <- function(data,meta,design, contrast, general.stats= TRUE, variable.gene
   fgsea_analysis (geneset=geneset_c2_BIOCARTA,r_list=r_list,category="Curated gene sets",subcategory="CP_BIOCARTA")
   fgsea_analysis (geneset=geneset_c2_KEGG,r_list=r_list,category="Curated gene sets",subcategory="CP_KEGG")
   fgsea_analysis (geneset=geneset_c2_REACTOME,r_list=r_list,category="Curated gene sets",subcategory="CP_REACTOME")
-  # geneset = geneset_c2 %>% split(x = .$gene_symbol, f = .$gs_name)
-  # fgsea_c2<- suppressWarnings(fgsea(pathways = geneset, stats = r_list, nperm=1000))
-  # fgsea_c2<- fgsea_c2[with(fgsea_c2, order(padj, -NES)), ]
-  # fgsea_plot (fgsea_result=fgsea_c2,geneset,r_list,analysis="geneset_C2")
   # C3
   print("Performing GSEA with C3: Motif gene sets")
   fgsea_analysis (geneset=geneset_c3_MIR,r_list=r_list,category="Motif gene sets",subcategory="MIR")
   fgsea_analysis (geneset=geneset_c3_TFT,r_list=r_list,category="Motif gene sets",subcategory="TFT")
-  # geneset = geneset_c3 %>% split(x = .$gene_symbol, f = .$gs_name)
-  # fgsea_c3<- suppressWarnings(fgsea(pathways = geneset, stats = r_list, nperm=1000))
-  # fgsea_c3<- fgsea_c3[with(fgsea_c3, order(padj, -NES)), ]
-  # fgsea_plot (fgsea_result=fgsea_c3,geneset,r_list,analysis="geneset_C3")
   # C4
   print("Performing GSEA with C4: Computational gene sets")
   fgsea_analysis (geneset=geneset_c4_CGN,r_list=r_list,category="Computational gene sets",subcategory="CGN")
   fgsea_analysis (geneset=geneset_c4_CM,r_list=r_list,category="Computational gene sets",subcategory="CM")
-  # geneset = geneset_c4 %>% split(x = .$gene_symbol, f = .$gs_name)
-  # fgsea_c4<- suppressWarnings(fgsea(pathways = geneset, stats = r_list, nperm=1000))
-  # fgsea_c4<- fgsea_c4[with(fgsea_c4, order(padj, -NES)), ]
-  # fgsea_plot (fgsea_result=fgsea_c4,geneset,r_list,analysis="geneset_C4")
   # C5
   print("Performing GSEA with C5: GO gene sets")
   fgsea_analysis (geneset=geneset_c5_BP,r_list=r_list,category="GO gene sets",subcategory="BP")
   fgsea_analysis (geneset=geneset_c5_CC,r_list=r_list,category="GO gene sets",subcategory="CC")
   fgsea_analysis (geneset=geneset_c5_MF,r_list=r_list,category="GO gene sets",subcategory="MF")
-  # geneset = geneset_c5 %>% split(x = .$gene_symbol, f = .$gs_name)
-  # fgsea_c5<- suppressWarnings(fgsea(pathways = geneset, stats = r_list, nperm=1000))
-  # fgsea_c5<- fgsea_c5[with(fgsea_c5, order(padj, -NES)), ]
-  # fgsea_plot (fgsea_result=fgsea_c5,geneset,r_list,analysis="geneset_C5")
   # C6
   print("Performing GSEA with C6: Oncogenic signatures")
   fgsea_analysis (geneset=geneset_c6,r_list=r_list,category="Oncogenic signatures",subcategory="C6_geneset")
-  # geneset = geneset_c6 %>% split(x = .$gene_symbol, f = .$gs_name)
-  # fgsea_c6<- suppressWarnings(fgsea(pathways = geneset, stats = r_list, nperm=1000))
-  # fgsea_c6<- fgsea_c6[with(fgsea_c6, order(padj, -NES)), ]
-  # fgsea_plot (fgsea_result=fgsea_c6,geneset,r_list,analysis="geneset_C6")
   # C7
   print("Performing GSEA with C7: Immunologic signatures")
   fgsea_analysis (geneset=geneset_c7,r_list=r_list,category="Immunologic signatures",subcategory="C7_geneset")
-  # geneset = geneset_c7 %>% split(x = .$gene_symbol, f = .$gs_name)
-  # fgsea_c7<- suppressWarnings(fgsea(pathways = geneset, stats = r_list, nperm=1000))
-  # fgsea_c7<- fgsea_c7[with(fgsea_c7, order(padj, -NES)), ]
-  # fgsea_plot (fgsea_result=fgsea_c7,geneset,r_list,analysis="geneset_C7")
 
-  # Save all results
-  # write.csv(as(fgsea_h1, "data.frame")[,-ncol(as(fgsea_h1, "data.frame"))], file = paste(location,"GSEA analysis/","GSEA Analysis- H1 geneset ",goi[1], " vs ", goi[2],".csv",sep = ""))
-  # write.csv(as(fgsea_c1, "data.frame")[,-ncol(as(fgsea_c1, "data.frame"))], file = paste(location,"GSEA analysis/","GSEA Analysis- C1 geneset ",goi[1], " vs ", goi[2],".csv",sep = ""))
-  # write.csv(as(fgsea_c2, "data.frame")[,-ncol(as(fgsea_c2, "data.frame"))], file = paste(location,"GSEA analysis/","GSEA Analysis- C2 geneset ",goi[1], " vs ", goi[2],".csv",sep = ""))
-  # write.csv(as(fgsea_c3, "data.frame")[,-ncol(as(fgsea_c3, "data.frame"))], file = paste(location,"GSEA analysis/","GSEA Analysis- C3 geneset ",goi[1], " vs ", goi[2],".csv",sep = ""))
-  # write.csv(as(fgsea_c4, "data.frame")[,-ncol(as(fgsea_c4, "data.frame"))], file = paste(location,"GSEA analysis/","GSEA Analysis- C4 geneset ",goi[1], " vs ", goi[2],".csv",sep = ""))
-  # write.csv(as(fgsea_c5, "data.frame")[,-ncol(as(fgsea_c5, "data.frame"))], file = paste(location,"GSEA analysis/","GSEA Analysis- C5 geneset ",goi[1], " vs ", goi[2],".csv",sep = ""))
-  # write.csv(as(fgsea_c6, "data.frame")[,-ncol(as(fgsea_c6, "data.frame"))], file = paste(location,"GSEA analysis/","GSEA Analysis- C6 geneset ",goi[1], " vs ", goi[2],".csv",sep = ""))
-  # write.csv(as(fgsea_c7, "data.frame")[,-ncol(as(fgsea_c7, "data.frame"))], file = paste(location,"GSEA analysis/","GSEA Analysis- C7 geneset ",goi[1], " vs ", goi[2],".csv",sep = ""))
+  # Custom gene set enrichment
+  custom.fgsea <- function(custom.gsea,r_list,category="Custom GeneSet"){
+    # Convert dataframe into a list
+    if (is.data.frame(custom.gsea)){
+      custom.gsea <- as.list(as.data.frame(t(custom.gsea)))
+      custom.gsea <- lapply(custom.gsea, as.character)
+      custom.gsea <- lapply(custom.gsea, unique)
+    }
+    if (is.list(custom.gsea)){
+      print("Performing GSEA Custom GeneSet")
+    } else{print("Please provide custom geneset in the right format")}
 
+    # Run the analysis
+    gsea<- suppressWarnings(fgsea(pathways = custom.gsea, stats = r_list, nperm=1000))
+    fgsea_result<- gsea[with(gsea, order(padj, -NES)), ]
+    # Leading edge conversion
+    leadingEdge  <- do.call(rbind.data.frame, fgsea_result$leadingEdge)
+    colnames(leadingEdge) <- seq(1:ncol(leadingEdge))
+    fgsea_table <- as(fgsea_result, "data.frame")[,-ncol(as(fgsea_result, "data.frame"))]
+    fgsea_table <- cbind(fgsea_table,leadingEdge)
+    # Create a new folder to save the reusults
+    suppressWarnings(dir.create(paste(location,"GSEA analysis/",category,"/",sep = "")))
+    # Make a plot
+    fgsea_result <- fgsea_result[order(fgsea_result$NES),]
+    fgsea_result <- na.omit(fgsea_result)
+    fgsea_sorted <- rbind(fgsea_result[1:10,], fgsea_result[(nrow(fgsea_result)-9):nrow(fgsea_result),])
+    fgsea_sorted <- fgsea_sorted[order(fgsea_sorted$NES),]
+    fgsea_sorted$pathway <- factor(fgsea_sorted$pathway , levels = fgsea_sorted$pathway )
+    gsea.plot <- ggplot(data=fgsea_sorted, aes(x=.data$pathway, y=.data$NES)) +
+      geom_col(aes(fill=.data$padj<0.05)) +
+      coord_flip() +
+      labs(x="Pathway", y="Normalized Enrichment Score",
+           title="Top 10 most and least enriched sets") +
+      scale_x_discrete(labels = function(x) str_wrap(x, width = 25)) +
+      theme_minimal()
+    # Save plot
+    pdf(paste(location,"GSEA analysis/",category,"/", goi[1], " vs ", goi[2],".pdf",sep = ""),width=10,height=12,paper='special')
+    plot(gsea.plot)
+    dev.off()
+    # Save results
+    write.csv(fgsea_table, file = paste(location,"GSEA analysis/",category,"/",goi[1], " vs ", goi[2],".csv",sep = ""))
+
+  }
+  if (!is.null(custom.gsea)){
+    custom.fgsea (custom.gsea=custom.gsea,r_list=r_list)
+  }
+  # END
   print(paste("Well done- your analysis is now complete. Head over to [[", getwd(), "]] to view your results"))
 }

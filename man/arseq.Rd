@@ -5,7 +5,7 @@
 \title{Automated RNASeq Analysis Pipeline}
 \usage{
 arseq(data, meta, design, contrast, general.stats = TRUE,
-  variable.genes = 1000, folder.name = "ARSeq")
+  variable.genes = 1000, folder.name = "ARSeq", custom.gsea = NULL)
 }
 \arguments{
 \item{data}{Un-normalized counts matrix (please note that you should NOT pass in normalized data).  The counts' table should contain unique gene names as the first column. ENSEMBL ID's are also allowed but no other form of ID's are currently supported. Check example- head(example_data): \code{\link{example_data}}.}
