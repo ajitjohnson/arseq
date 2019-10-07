@@ -1,28 +1,30 @@
 Package: arseq
 Type: Package
 Title: Automated RNASeq Analysis Pipeline 
-Version: 2.0.0
+Version: 2.0.1
 Author: Ajit Johnson Nirmal
 Maintainer: Ajit Johnson Nirmal <ajitjohnson.n@gmail.com>
-Description: This is a easy to use R package for automated basic analysis of RNASeq data with minimal coding. This package has been designed for experimental biologist with little to no coding experience. The package currently supports the following analysis. 
+Description: This is a easy to use R package for automated basic analysis of RNA sequencing data with minimal coding. This package has been designed for experimental biologist with little to no coding experience. The package currently supports the following analysis. 
+    Currently supported Model Organism: Homo sapiens
     Over all data structure: 
     Euclidean distance between samples.
     Poisson distance between samples.
-    PCA analysis.
-    PCA Eigenvectors.
-    Multidimensional scaling (MDS) analysis and Most variable genes.
+    Principal component analysis.
+    Principal component analysis Eigenvectors.
+    Multidimensional scaling analysis and most variable genes.
     Between groups of interest:
-    Differential gene expression analysis using DESeq2.
-    Volcano Plot of differentially expressed genes.
+    Differential gene expression analysis using 'DESeq2'.
+    Volcano plot of differentially expressed genes.
     Euclidean distance between samples.
     Poisson distance between samples.
-    PCA analysis.
-    PCA Eigenvectors.
-    Multidimensional scaling (MDS) analysis.
-    GO enrichment of the differentially expressed genes.
-    KEGG pathway enrichment of the differentially expressed genes.
-    KEGG pathway diagrams of the top 5 enriched pathways. 
-    GSEA analysis (H, C1, C2, C3, C4, C5, C6, C7 genesets).
+    Principal component analysis.
+    Principal component analysis Eigenvectors.
+    Multidimensional scaling analysis.
+    Gene Ontology enrichment of the differentially expressed genes.
+    Kyoto Encyclopedia of Genes and Genomes pathway enrichment of the differentially expressed genes.
+    Kyoto Encyclopedia of Genes and Genomes pathway diagrams of the top 5 enriched pathways. 
+    Gene Set Enrichment Analysis (H, C1, C2, C3, C4, C5, C6, C7 geneset).
+    Custom Gene Set Enrichment Analysis.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

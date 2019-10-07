@@ -4,6 +4,7 @@
 #' @return GO enrichment plot
 #' @import ggplot2
 #' @import gridExtra
+#' @import stringr
 #' @examples
 #' \dontrun{
 #' go.enrich <- arseq.go.enrich (example_deg)

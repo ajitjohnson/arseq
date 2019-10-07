@@ -3,6 +3,7 @@
 #' @param data Expression matrix with ensemble id's as the first column
 #' @return Expression matrix with gene names as the first column
 #' @importFrom biomaRt useEnsembl getBM
+#' @importFrom stats aggregate
 #' @examples
 #' \dontrun{
 #' contrast = list(A = c("control"), B= c("drug_A"))

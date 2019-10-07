@@ -11,6 +11,8 @@
 #' @param qc Logical. When passed in TRUE, the program would run the quality control modules on the entire dataset. If you are planning to perform multiple comparisons using the contrast argument, run  qc = TRUE for the first time and then change it to qc = FALSE for the subsequent comparisons to speed up the analysis.
 #' @param dgea Logical. Parameter to define if differential gene expression analysis is to be performed. Default: TRUE
 #' @import DESeq2
+#' @import utils
+#' @import plyr
 #' @importFrom stats as.formula
 #' @return The program does not return anything to the R environment. All analysis results will be stored under a folder named "arseq" within your working directory.
 #' @examples

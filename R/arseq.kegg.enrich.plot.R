@@ -6,7 +6,9 @@
 #' @param pathway.plots Logical.Parameter to indicate if the pathways figures need to be drawn.
 #' @return GO enrichment plot
 #' @import ggplot2
-#' @importFrom dplyr tbl_df "%>%"
+#' @importFrom dplyr tbl_df filter row_number "%>%"
+#' @import pathview
+#' @import stringr
 #' @examples
 #' \dontrun{
 #' kegg.enrich <- arseq.kegg.enrich (example_deg)
@@ -19,10 +21,10 @@ arseq.kegg.enrich.plot <- function(kegg.enrich,foldchanges,save.dir=getwd(), pat
   if (isTRUE(pathway.plots)){
     # Individual pathway figures for the top 5 pathways
     keggrespathways_up = data.frame(id=rownames(kegg.enrich$up_regulated_pathways), kegg.enrich$up_regulated_pathways) %>% tbl_df() %>%
-      dplyr::filter(.data$q.val<=0.05) %>% dplyr::filter(row_number()<=5) %>% .$id %>% as.character()
+      dplyr::filter(.data$q.val<=0.05) %>% dplyr::filter(row_number()<=5) %>% .data$id %>% as.character()
 
     keggrespathways_down = data.frame(id=rownames(kegg.enrich$down_regulated_pathways), kegg.enrich$down_regulated_pathways) %>% tbl_df() %>%
-      dplyr::filter(.data$q.val<=0.05) %>% dplyr::filter(row_number()<=5) %>% .$id %>% as.character()
+      dplyr::filter(.data$q.val<=0.05) %>% dplyr::filter(row_number()<=5) %>% .data$id %>% as.character()
     # collate the pathways
     keggrespathways = c(keggrespathways_up, keggrespathways_down)
     # Get the IDs.

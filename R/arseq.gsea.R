@@ -11,7 +11,10 @@
 #' @return List containing a dataframe and a ggplot object.
 #' @import fgsea
 #' @import msigdbr
+#' @import utils
 #' @importFrom dplyr "%>%"
+#' @importFrom stats na.omit
+#' @import stringr
 #' @examples
 #' ranked.list <- arseq.gsea.preprocess (deg=example_deg)
 #' gsea.output <- arseq.gsea (ranked.list, category = "H")
