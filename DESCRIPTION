@@ -1,11 +1,11 @@
 Package: arseq
 Type: Package
-Title: Automated RNASeq Analysis Pipeline 
-Version: 2.0.1
+Title: Automated RNA sequencing Analysis Pipeline 
+Version: 2.0.3
 Author: Ajit Johnson Nirmal
 Maintainer: Ajit Johnson Nirmal <ajitjohnson.n@gmail.com>
 Description: This is a easy to use R package for automated basic analysis of RNA sequencing data with minimal coding. This package has been designed for experimental biologist with little to no coding experience. The package currently supports the following analysis. 
-    Currently supported Model Organism: Homo sapiens
+    Currently supported Model Organism: Human.
     Over all data structure: 
     Euclidean distance between samples.
     Poisson distance between samples.
@@ -23,7 +23,7 @@ Description: This is a easy to use R package for automated basic analysis of RNA
     Gene Ontology enrichment of the differentially expressed genes.
     Kyoto Encyclopedia of Genes and Genomes pathway enrichment of the differentially expressed genes.
     Kyoto Encyclopedia of Genes and Genomes pathway diagrams of the top 5 enriched pathways. 
-    Gene Set Enrichment Analysis (H, C1, C2, C3, C4, C5, C6, C7 geneset).
+    Gene Set Enrichment Analysis (H, C1, C2, C3, C4, C5, C6, C7 gene set).
     Custom Gene Set Enrichment Analysis.
 License: GPL-3
 Encoding: UTF-8

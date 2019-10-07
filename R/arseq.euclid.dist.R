@@ -5,7 +5,9 @@
 #' @import DESeq2
 #' @importFrom stats dist
 #' @examples
+#' \dontrun{
 #' euclid.dist <- arseq.euclid.dist (example_dds)
+#' }
 #' @export
 
 # Sample to sample distance

@@ -5,8 +5,10 @@
 #' @import pheatmap
 #' @import viridis
 #' @examples
+#' \dontrun{
 #' euclid.dist <- arseq.euclid.dist (example_dds)
 #' euclid.plot <- arseq.euclid.dist.plot (euclid.dist)
+#' }
 #' @export
 
 arseq.euclid.dist.plot <- function(euclid.dist){

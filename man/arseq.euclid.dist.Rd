@@ -16,5 +16,7 @@ Euclidean distance matrix
 Calculate the Euclidean distance between samples.
 }
 \examples{
+\dontrun{
 euclid.dist <- arseq.euclid.dist (example_dds)
+}
 }

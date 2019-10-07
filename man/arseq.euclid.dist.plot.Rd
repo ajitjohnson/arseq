@@ -16,6 +16,8 @@ Euclidean distance heatmap.
 Plots a heatmap of the distance between samples using pheatmap.
 }
 \examples{
+\dontrun{
 euclid.dist <- arseq.euclid.dist (example_dds)
 euclid.plot <- arseq.euclid.dist.plot (euclid.dist)
+}
 }

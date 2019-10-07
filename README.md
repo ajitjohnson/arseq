@@ -4,6 +4,8 @@ For an in depth tutorial checkout the following [blog post](https://ajitjohnson.
 
 ### The package currently supports the following analysis
 
+Currently supported Model Organism: Human.<br>
+
 **Over all data structure analysis:**<br>
   - Euclidean distance between samples
   - Poisson distance between samples
