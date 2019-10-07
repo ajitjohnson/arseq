@@ -1,7 +1,7 @@
 Package: arseq
 Type: Package
 Title: Automated RNA sequencing Analysis Pipeline 
-Version: 2.0.3
+Version: 2.0.4
 Author: Ajit Johnson Nirmal
 Maintainer: Ajit Johnson Nirmal <ajitjohnson.n@gmail.com>
 Description: This is a easy to use R package for automated basic analysis of RNA sequencing data with minimal coding. This package has been designed for experimental biologist with little to no coding experience. The package currently supports the following analysis. 

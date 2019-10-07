@@ -9,7 +9,9 @@
 #' @importFrom stats dist cmdscale
 #' @importFrom dplyr tbl_df "%>%"
 #' @examples
+#' \dontrun{
 #' mds.plot <- arseq.mds.plot (example_dds, intgroup="treatment")
+#' }
 #' @export
 
 arseq.mds.plot = function(dds,intgroup="arseq.group"){

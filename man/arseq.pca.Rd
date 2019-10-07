@@ -18,5 +18,7 @@ Eigen vectors of the Principal components
 Plots any two specified principal components. By default it plots the first two principal components.
 }
 \examples{
+\dontrun{
 pca.ev <- arseq.pca (example_dds)
+}
 }

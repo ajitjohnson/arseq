@@ -26,6 +26,3 @@ ggplot of the two selected principal components
 \description{
 Plots any two specified principal components. By default it plots the first two principal components.
 }
-\examples{
-pca.plot <- arseq.pca.plot (example_dds, intgroup="treatment")
-}

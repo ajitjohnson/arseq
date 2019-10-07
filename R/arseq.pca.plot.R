@@ -11,8 +11,10 @@
 #' @import ggrepel
 #' @import ggplot2
 #' @importFrom stats prcomp
+#' \dontrun{
 #' @examples
 #' pca.plot <- arseq.pca.plot (example_dds, intgroup="treatment")
+#' }
 #' @export
 
 arseq.pca.plot = function(dds, intgroup="arseq.group", ntop=500, pc.a= 1, pc.b = 2, returnData=FALSE){

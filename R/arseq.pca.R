@@ -7,7 +7,9 @@
 #' @importFrom matrixStats rowVars
 #' @importFrom stats prcomp
 #' @examples
+#' \dontrun{
 #' pca.ev <- arseq.pca (example_dds)
+#' }
 #' @export
 
 arseq.pca = function(dds, ntop=500){

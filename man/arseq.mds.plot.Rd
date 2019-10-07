@@ -18,5 +18,7 @@ ggplot of the two selected principal components
 Plots the Multidimensional scaling (MDS) factors.
 }
 \examples{
+\dontrun{
 mds.plot <- arseq.mds.plot (example_dds, intgroup="treatment")
+}
 }
