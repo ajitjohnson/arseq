@@ -4,8 +4,9 @@
 \alias{arseq}
 \title{Automated RNASeq Analysis Pipeline}
 \usage{
-arseq(data, meta, design, contrast, general.stats = TRUE,
-  variable.genes = 1000, folder.name = "ARSeq", custom.gsea = NULL)
+arseq(data, meta, design, contrast, qc = TRUE, dgea = TRUE,
+  variable.genes = 1000, folder.name = "ARSeq", custom.gsea = NULL,
+  save.dir = getwd())
 }
 \arguments{
 \item{data}{Un-normalized counts matrix (please note that you should NOT pass in normalized data).  The counts' table should contain unique gene names as the first column. ENSEMBL ID's are also allowed but no other form of ID's are currently supported. Check example- head(example_data): \code{\link{example_data}}.}
@@ -16,11 +17,17 @@ arseq(data, meta, design, contrast, general.stats = TRUE,
 
 \item{contrast}{Information regarding the groups between which you would like to perform differential gene expression analysis. It could be between two groups or between multiple groups and needs to follow the following format: contrast = list(A = c(" "), B= c(" ")). If you are comparing two groups (e.g. control vs treatment), the constrast argument should look like the following: contrast = list(A = c("control"), B= c("treatment")). In situations where you have multiple groups to compare- (e.g. control vs treatment1 and treatment2), you should do the following- contrast = list(A = c("control"), B= c("treatment1", "treatment2")).}
 
-\item{general.stats}{TRUE/FALSE. When passed in TRUE, the program would run the general stat modules on the entire dataset. If you are planning to perform multiple comparisons using the contrast argument, run  general.stats = TRUE for the first time and then change it to general.stats = FALSE for the subsequent comparisons to speed up the analysis.}
+\item{qc}{Logical. When passed in TRUE, the program would run the quality control modules on the entire dataset. If you are planning to perform multiple comparisons using the contrast argument, run  qc = TRUE for the first time and then change it to qc = FALSE for the subsequent comparisons to speed up the analysis.}
+
+\item{dgea}{Logical. Parameter to define if differential gene expression analysis is to be performed. Default: TRUE}
 
 \item{variable.genes}{numeric: The number of most variable genes to be identified. By default, the program identifies the top 1000 most variable genes.}
 
 \item{folder.name}{Custom folder name that you would like to save your results in.}
+
+\item{custom.gsea}{User defined gene list to perform GSEA. File need to be supplied as a dataframe with each row as a gene list}
+
+\item{save.dir}{Directory to save the results in. Default: Working Directory.}
 }
 \value{
 The program does not return anything to the R environment. All analysis results will be stored under a folder named "arseq" within your working directory.
@@ -31,6 +38,6 @@ An easy to use pipeline for analysing RNA Seq data. The package currently suppor
 \examples{
 \dontrun{
 contrast = list(A = c("control"), B= c("drug_A"))
-arseq (data = example_data,meta = example_meta, design = "treatment", contrast = contrast)
+arseq2 (data = example_data,meta = example_meta, design = "treatment", contrast = contrast)
 }
 }

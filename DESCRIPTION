@@ -1,7 +1,7 @@
 Package: arseq
 Type: Package
 Title: Automated RNASeq Analysis Pipeline 
-Version: 1.2.0
+Version: 2.0.0
 Author: Ajit Johnson Nirmal
 Maintainer: Ajit Johnson Nirmal <ajitjohnson.n@gmail.com>
 Description: This is a easy to use R package for automated basic analysis of RNASeq data with minimal coding. This package has been designed for experimental biologist with little to no coding experience. The package currently supports the following analysis. 
@@ -54,7 +54,8 @@ Imports:
   EnhancedVolcano (>= 1.0),
   pathview (>= 1.22),
   gage (>= 2.32),
-  AnnotationDbi (>= 1.44)
+  AnnotationDbi (>= 1.44),
+  matrixStats (>= 0.54.0)
 RoxygenNote: 6.1.1
 URL: https://github.com/ajitjohnson/arseq
 Suggests: testthat

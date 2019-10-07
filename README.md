@@ -24,6 +24,7 @@ For an in depth tutorial checkout the following [blog post](https://ajitjohnson.
   - KEGG pathway enrichment of the differentially expressed genes
   - KEGG pathway diagrams of the top 5 enriched pathways
   - GSEA analysis (H, C1, C2, C3, C4, C5, C6, C7 genesets)
+  - Custom geneset GSEA analysis
 
 ## Requirements
 #### Counts Table
