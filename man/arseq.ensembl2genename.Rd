@@ -17,7 +17,6 @@ Convert ensembl id's to hugo gene names. The function also reduces multiple tran
 }
 \examples{
 \dontrun{
-contrast = list(A = c("control"), B= c("drug_A"))
-arseq (data = example_data,meta = example_meta, design = "treatment", contrast = contrast)
+data <- arseq.ensembl2genename (example_data)
 }
 }

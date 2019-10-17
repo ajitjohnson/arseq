@@ -11,8 +11,8 @@
 #' @import ggrepel
 #' @import ggplot2
 #' @importFrom stats prcomp
-#' \dontrun{
 #' @examples
+#' \dontrun{
 #' pca.plot <- arseq.pca.plot (example_dds, intgroup="treatment")
 #' }
 #' @export

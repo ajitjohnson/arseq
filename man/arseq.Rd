@@ -30,7 +30,7 @@ arseq(data, meta, design, contrast, qc = TRUE, dgea = TRUE,
 \item{save.dir}{Directory to save the results in. Default: Working Directory.}
 }
 \value{
-The program does not return anything to the R environment. All analysis results will be stored under a folder named "arseq" within your working directory.
+Differentially expressed genes.
 }
 \description{
 An easy to use pipeline for analysing RNA Seq data. The package currently supports the following analysis- Differential gene expression analysis using DESeq2, Calculate the most variable genes, PCA analysis, GO enrichment of the differentially expressed genes, KEGG pathway enrichment of the differentially expressed genes, GSEA analysis.

@@ -14,7 +14,7 @@
 #' @import utils
 #' @import plyr
 #' @importFrom stats as.formula
-#' @return The program does not return anything to the R environment. All analysis results will be stored under a folder named "arseq" within your working directory.
+#' @return Differentially expressed genes.
 #' @examples
 #' \dontrun{
 #' contrast = list(A = c("control"), B= c("drug_A"))
@@ -217,7 +217,7 @@ arseq <- function(data,meta,design, contrast, qc= TRUE, dgea=TRUE, variable.gene
     ranked.list <- arseq.gsea.preprocess (deg)
     gsea.output <- arseq.gsea.runall (ranked.list, save=TRUE, save.dir=location, custom.gsea=custom.gsea)
   }
-
+  return(deg)
   # END
   print(paste("Well done- your analysis is now complete. Head over to [[", getwd(), "]] to view your results"))
 }
