@@ -46,9 +46,6 @@ Install and load the package.
 if( !require(devtools) ) install.packages("devtools")
 devtools::install_github( "ajitjohnson/arseq", INSTALL_opts = "--no-multiarch")
 
-# For stable version
-install.packages("arseq")
-
 # Load the package
 library("arseq")
 ```
@@ -93,7 +90,7 @@ arseq (data = example_data, meta = example_meta, design = "treatment", contrast 
 
 ## Additional parameters
 The `arseq` function can take in a few additional arguments.<br><br>
-`general.stats`- Default is TRUE. This will run the general stat module (e.g. PCA, MDS, etc.. for your entire dataset). If you are making multiple comparisons using the `contrast` argument, run  `general.stats = TRUE` for the first time and change it to `general.stats = FALSE` for the subsequent comparisons to speed up the analysis.<br><br>
+`qc`- Default is TRUE. This will run the general stat module (e.g. PCA, MDS, etc.. for your entire dataset). If you are making multiple comparisons using the `contrast` argument, run  `qc = TRUE` for the first time and change it to `qc = FALSE` for the subsequent comparisons to speed up the analysis.<br><br>
 `variable.genes`- Number of variable genes to be identified. By default the program identifies the top 1000 most variable genes. you could set it to `variable.genes=3000` to calculate the top 3000 most variable genes.
 
 ## Cite
