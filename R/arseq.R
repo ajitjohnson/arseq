@@ -217,7 +217,7 @@ arseq <- function(data,meta,design, contrast, qc= TRUE, dgea=TRUE, variable.gene
     ranked.list <- arseq.gsea.preprocess (deg)
     gsea.output <- arseq.gsea.runall (ranked.list, save=TRUE, save.dir=location, custom.gsea=custom.gsea)
   }
-  return(deg)
+  if (isTRUE(dgea)){return(deg)}
   # END
   print(paste("Well done- your analysis is now complete. Head over to [[", getwd(), "]] to view your results"))
 }
