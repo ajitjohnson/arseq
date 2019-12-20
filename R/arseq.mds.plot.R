@@ -25,5 +25,5 @@ arseq.mds.plot = function(dds,intgroup="arseq.group"){
     geom_point(size = 3) + geom_text_repel(aes(label = rownames(mds)),size = 3)+
     theme_classic()+ coord_fixed()+
     xlab ("MDS_1")+ ylab ("MDS_2") + ggtitle("Multidimensional scaling (MDS) Plot")+
-    theme(plot.title = element_text(hjust = 0.5))
+    theme(plot.title = element_text(hjust = 0.5), legend.position="bottom")
 }

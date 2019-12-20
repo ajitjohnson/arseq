@@ -63,5 +63,5 @@ arseq.pca.plot = function(dds, intgroup="arseq.group", ntop=500, pc.a= 1, pc.b =
     theme_classic()+
     geom_text_repel(aes(label = .data$name),size = 3) +
     coord_fixed() + ggtitle("Principal component analysis (PCA) Plot")+
-    theme(plot.title = element_text(hjust = 0.5))
+    theme(plot.title = element_text(hjust = 0.5), legend.position="bottom")
 }
