@@ -12,7 +12,7 @@
 
 arseq.ensembl2genename <- function(data){
   print("Converting ENSEMBL ID's to gene names")
-  ensembl <- useEnsembl(biomart="ensembl", dataset="hsapiens_gene_ensembl",mirror ="useast")
+  ensembl <- useEnsembl(biomart="ensembl", dataset="hsapiens_gene_ensembl")
   genes <- getBM(attributes=c('ensembl_gene_id','hgnc_symbol'), mart = ensembl)
   data_m <- merge(data, genes, by.x="row.names", by.y= "ensembl_gene_id")[,-1]
   data_m <- data_m[!(data_m$hgnc_symbol==""), ]
