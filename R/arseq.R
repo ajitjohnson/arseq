@@ -150,7 +150,7 @@ arseq <- function(data,meta,design, contrast, qc= TRUE, dgea=TRUE, variable.gene
     write.csv(deg, file = paste(location,"Differential expression/",goi[1], " vs ", goi[2],".csv",sep = ""))
 
     # Heatmap of the differentially expressed genes
-    deg.plot <- arseq.deg.plot (deg, data=n_data_goi, dds=dds_subset,
+    deg.plot <- arseq.deg.plot (gene_count, deg, data=n_data_goi, dds=dds_subset,
                                 save.plot=TRUE, save.dir=paste(location,"Differential expression/",sep=""))
 
     # Calculate Euclidean distance between contrast groups
