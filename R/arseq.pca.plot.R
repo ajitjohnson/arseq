@@ -22,13 +22,13 @@ arseq.pca.plot = function(dds, intgroup="arseq.group", ntop=500, pc.a= 1, pc.b =
   # Normalize data
   vsd <- varianceStabilizingTransformation(dds, blind = FALSE)
   # calculate the variance for each gene
-  rv <- rowVars(vsd@assays$data[[1]])
+  rv <- rowVars(vsd@assays@data[[1]])
 
   # select the ntop genes by variance
   select <- order(rv, decreasing=TRUE)[seq_len(min(ntop, length(rv)))]
 
   # perform a PCA on the data in assay(x) for the selected genes
-  pca <- prcomp(t(vsd@assays$data[[1]][select,]))
+  pca <- prcomp(t(vsd@assays@data[[1]][select,]))
 
   # the contribution to the total variance for each component
   percentVar <- pca$sdev^2 / sum( pca$sdev^2 )
