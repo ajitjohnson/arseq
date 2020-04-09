@@ -19,7 +19,7 @@ arseq.mds.plot = function(dds,intgroup="arseq.group"){
   vsd <- varianceStabilizingTransformation(dds, blind = FALSE)
   # Calculate MDS
   print("Performing a multidimensional scaling (MDS) analysis")
-  mds <- as.data.frame(vsd@colData)  %>% cbind(cmdscale(as.matrix(dist(t(vsd@assays$data[[1]])))))
+  mds <- as.data.frame(vsd@colData)  %>% cbind(cmdscale(as.matrix(dist(t(vsd@assays@data[[1]])))))
   # Plot MDS
   ggplot(mds, aes_string(x = mds$`1`, y = mds$`2`, color = intgroup)) +
     geom_point(size = 3) + geom_text_repel(aes(label = rownames(mds)),size = 3)+

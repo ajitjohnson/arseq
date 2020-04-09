@@ -1,7 +1,7 @@
 Package: arseq
 Type: Package
 Title: Automated RNA Sequencing Analysis Pipeline
-Version: 2.1.7
+Version: 2.1.8
 Author: Ajit Johnson Nirmal
 Maintainer: Ajit Johnson Nirmal <ajitjohnson.n@gmail.com>
 Description: Biologist friendly program that supports the following analysis in an automated fashion with minimal coding requirement. 
