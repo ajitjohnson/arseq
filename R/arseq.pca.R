@@ -22,7 +22,7 @@ arseq.pca = function(dds, ntop=500){
   select <- order(rv, decreasing=TRUE)[seq_len(min(ntop, length(rv)))]
 
   # perform a PCA on the data in assay(x) for the selected genes
-  pca <- prcomp(vsd@assays$data[[1]][select,])
+  pca <- prcomp(vsd@assays@data[[1]][select,])
   pca <- data.frame(pca$x)
   arseq.pca <- pca[order(-pca[,1]),]
 
