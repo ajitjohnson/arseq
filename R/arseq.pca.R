@@ -17,7 +17,7 @@ arseq.pca = function(dds, ntop=500){
   # Normalize data
   vsd <- varianceStabilizingTransformation(dds, blind = FALSE)
   # calculate the variance for each gene
-  rv <- rowVars(vsd@assays$data[[1]])
+  rv <- rowVars(vsd@assays@data[[1]])
   # select the ntop genes by variance
   select <- order(rv, decreasing=TRUE)[seq_len(min(ntop, length(rv)))]
 
