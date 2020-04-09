@@ -14,6 +14,6 @@
 arseq.euclid.dist <- function (dds){
   vsd <- varianceStabilizingTransformation(dds, blind = FALSE)
   print("Calculating the Euclidean distance")
-  euclid.dist <- dist(t(vsd@assays$data[[1]]))
+  euclid.dist <- dist(t(vsd@assays@data[[1]]))
   return(euclid.dist)
 }
