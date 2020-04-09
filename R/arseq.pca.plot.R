@@ -18,7 +18,7 @@
 #' @export
 
 arseq.pca.plot = function(dds, intgroup="arseq.group", ntop=500, pc.a= 1, pc.b = 2, returnData=FALSE){
-  print("Performing a PCA analysis")
+  print("Performing PCA analysis")
   # Normalize data
   vsd <- varianceStabilizingTransformation(dds, blind = FALSE)
   # calculate the variance for each gene
