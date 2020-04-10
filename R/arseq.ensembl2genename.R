@@ -10,9 +10,9 @@
 #' }
 #' @export
 
-arseq.ensembl2genename <- function(data){
+arseq.ensembl2genename <- function(data,ensemblmirror){
   print("Converting ENSEMBL ID's to gene names")
-  ensembl <- useEnsembl(biomart="ensembl", dataset="hsapiens_gene_ensembl", mirror="uswest")
+  ensembl <- useEnsembl(biomart="ensembl", dataset="hsapiens_gene_ensembl", mirror=ensemblmirror)
   genes <- getBM(attributes=c('ensembl_gene_id','hgnc_symbol'), mart = ensembl)
   data_m <- merge(data, genes, by.x="row.names", by.y= "ensembl_gene_id")[,-1]
   data_m <- data_m[!(data_m$hgnc_symbol==""), ]

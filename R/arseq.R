@@ -10,6 +10,7 @@
 #' @param custom.gsea User defined gene list to perform GSEA. File need to be supplied as a dataframe with each row as a gene list
 #' @param qc Logical. When passed in TRUE, the program would run the quality control modules on the entire dataset. If you are planning to perform multiple comparisons using the contrast argument, run  qc = TRUE for the first time and then change it to qc = FALSE for the subsequent comparisons to speed up the analysis.
 #' @param dgea Logical. Parameter to define if differential gene expression analysis is to be performed. Default: TRUE
+#' @param ensemblmirror String. Values for the mirror argument are: useast, uswest, asia
 #' @import DESeq2
 #' @import utils
 #' @import plyr
@@ -22,7 +23,7 @@
 #' }
 #' @export
 
-arseq <- function(data,meta,design, contrast, qc= TRUE, dgea=TRUE, variable.genes=1000, folder.name="ARSeq", custom.gsea=NULL, save.dir=getwd()){
+arseq <- function(data,meta,design, contrast, qc= TRUE, dgea=TRUE, variable.genes=1000, folder.name="ARSeq", custom.gsea=NULL, save.dir=getwd(),ensemblmirror="useast"){
 
   # Set the working directory
   if (save.dir != getwd()){
