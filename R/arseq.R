@@ -79,8 +79,9 @@ arseq <- function(data,meta,design, contrast, dds=NULL, qc= TRUE, dgea=TRUE, var
   # Generate the DESEq2 data object
   if(is.null(dds)){
     print("Generating the DESeq object")
-    dds_raw <- DESeqDataSetFromMatrix(countData = data, colData = meta, design = design)
-    dds_raw <- DESeq(dds_raw)
+    dds <- DESeqDataSetFromMatrix(countData = data, colData = meta, design = design)
+    dds <- DESeq(dds)
+    dds_raw <- dds
   }
 
   # Get the normalized matrix for heatmaps
@@ -130,9 +131,6 @@ arseq <- function(data,meta,design, contrast, dds=NULL, qc= TRUE, dgea=TRUE, var
     # Create folder to save the differentially expression results
     suppressWarnings(dir.create(paste(folder.name,"/",goi[1], " vs ", goi[2],sep = "")))
     location <- paste(folder.name,"/",goi[1], " vs ", goi[2],"/",sep = "")
-
-    # dds
-    dds = dds_raw
 
     # Manipulate the dds groups to look at the contrasts of interest
     dds$arseq.group <- mapvalues(dds$arseq.group, from=contrast[[1]], to=rep(paste(unlist(contrast[[1]]), collapse="_"),length(contrast[[1]])))
