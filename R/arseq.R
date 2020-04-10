@@ -65,7 +65,7 @@ arseq <- function(data,meta,design, contrast, qc= TRUE, dgea=TRUE, variable.gene
 
   # ENSEMBL ID to gene names
   if (all(substr(row.names(data),1,3) == "ENS")){
-    data <- arseq.ensembl2genename(data)
+    data <- arseq.ensembl2genename(data,ensemblmirror)
     }
 
   # Remove genes that are completely not expressed
