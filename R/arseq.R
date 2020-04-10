@@ -81,8 +81,10 @@ arseq <- function(data,meta,design, contrast, dds=NULL, qc= TRUE, dgea=TRUE, var
     print("Generating the DESeq object")
     dds <- DESeqDataSetFromMatrix(countData = data, colData = meta, design = design)
     dds <- DESeq(dds)
-    dds_raw <- dds
   }
+
+  # to return
+  dds_raw <- dds
 
   # Get the normalized matrix for heatmaps
   print("Normalizing data and saving the normalized data")
