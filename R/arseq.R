@@ -76,18 +76,18 @@ arseq <- function(data,meta,design, contrast, qc= TRUE, dgea=TRUE, variable.gene
   meta <- meta[order(meta$arseq.group),]
   data <- data[,row.names(meta)]
 
-  # Generate the DESEq2 data object
-  print("Generating the DESeq object")
-  dds <- DESeqDataSetFromMatrix(countData = data, colData = meta, design = design)
-  dds <- DESeq(dds)
-
-  # Get the normalized matrix for heatmaps
-  print("Normalizing data and saving the normalized data")
-  n_data <- log2(counts(dds, normalized=TRUE)+1)
-  write.csv(n_data, file = paste(folder.name,"/normalized_data",".csv",sep = ""))
-
   # Quality Control of the data
   if (isTRUE(qc)){
+    # Generate the DESEq2 data object
+    print("Generating the DESeq object")
+    dds <- DESeqDataSetFromMatrix(countData = data, colData = meta, design = design)
+    dds <- DESeq(dds)
+
+    # Get the normalized matrix for heatmaps
+    print("Normalizing data and saving the normalized data")
+    n_data <- log2(counts(dds, normalized=TRUE)+1)
+    write.csv(n_data, file = paste(folder.name,"/normalized_data",".csv",sep = ""))
+
     # Create a folder to save results
     suppressWarnings(dir.create(paste(folder.name,"/Quality Control",sep = "")))
 
