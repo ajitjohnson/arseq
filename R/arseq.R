@@ -23,7 +23,7 @@
 #' }
 #' @export
 
-arseq <- function(data,meta,design, contrast, qc= TRUE, dgea=TRUE, variable.genes=1000, folder.name="ARSeq", custom.gsea=NULL, save.dir=getwd(),ensemblmirror="useast"){
+arseq <- function(data,meta,design, contrast, dds=NULL, qc= TRUE, dgea=TRUE, variable.genes=1000, folder.name="ARSeq", custom.gsea=NULL, save.dir=getwd(),ensemblmirror="useast"){
 
   # Set the working directory
   if (save.dir != getwd()){
@@ -76,18 +76,20 @@ arseq <- function(data,meta,design, contrast, qc= TRUE, dgea=TRUE, variable.gene
   meta <- meta[order(meta$arseq.group),]
   data <- data[,row.names(meta)]
 
-  # Quality Control of the data
-  if (isTRUE(qc)){
-    # Generate the DESEq2 data object
+  # Generate the DESEq2 data object
+  if(is.null(dds)){
     print("Generating the DESeq object")
     dds <- DESeqDataSetFromMatrix(countData = data, colData = meta, design = design)
     dds <- DESeq(dds)
+  }
 
-    # Get the normalized matrix for heatmaps
-    print("Normalizing data and saving the normalized data")
-    n_data <- log2(counts(dds, normalized=TRUE)+1)
-    write.csv(n_data, file = paste(folder.name,"/normalized_data",".csv",sep = ""))
+  # Get the normalized matrix for heatmaps
+  print("Normalizing data and saving the normalized data")
+  n_data <- log2(counts(dds, normalized=TRUE)+1)
+  write.csv(n_data, file = paste(folder.name,"/normalized_data",".csv",sep = ""))
 
+  # Quality Control of the data
+  if (isTRUE(qc)){
     # Create a folder to save results
     suppressWarnings(dir.create(paste(folder.name,"/Quality Control",sep = "")))
 
@@ -218,7 +220,8 @@ arseq <- function(data,meta,design, contrast, qc= TRUE, dgea=TRUE, variable.gene
     ranked.list <- arseq.gsea.preprocess (deg)
     gsea.output <- arseq.gsea.runall (ranked.list, save=TRUE, save.dir=location, custom.gsea=custom.gsea)
   }
-  if (isTRUE(dgea)){return(deg)}
+  #if (isTRUE(dgea)){return(deg)}
+  return (dds)
   # END
   print(paste("Well done- your analysis is now complete. Head over to [[", getwd(), "]] to view your results"))
 }
