@@ -10,7 +10,7 @@
 #' mvg <- arseq.mvg (example_dds)
 #' @export
 
-arseq.mvg <- function(data,variable.genes=1000,dds.object=TRUE){
+arseq.mvg <- function(data,variable.genes=variable.genes,dds.object=TRUE){
   # Normalize the data if the data is a DESeq2 object
   if (isTRUE(dds.object)){data <- log2(counts(data, normalized=TRUE)+1)}
   # MVG

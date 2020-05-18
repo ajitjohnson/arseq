@@ -122,7 +122,7 @@ arseq <- function(data,meta,design, contrast, dds=NULL, qc= TRUE, dgea=TRUE, var
     arseq.plot.save (mds.plot, filename="MDS plot.pdf", width=7, height=7, save.dir= paste(folder.name,"/Quality Control",sep="")) # Save the MDS plot
 
     # Most variable genes
-    mvg <- arseq.mvg (dds)
+    mvg <- arseq.mvg (dds,variable.genes=variable.genes)
     write.csv(mvg, file = paste(folder.name,"/Quality Control/most variable genes.csv",sep=""))
 
     # Heatmap of the most variable genes
