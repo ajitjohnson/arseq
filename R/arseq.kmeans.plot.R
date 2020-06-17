@@ -5,6 +5,7 @@
 #' @import ComplexHeatmap
 #' @import circlize
 #' @import RColorBrewer
+#' @import ReactomePA
 #' @return Heatmap
 #' @examples
 #' arseq.kmeans.plot (data,clusters=kmeansclusters,metadata= example_meta,intgroup="treatment")
