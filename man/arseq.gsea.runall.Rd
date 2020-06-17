@@ -4,8 +4,12 @@
 \alias{arseq.gsea.runall}
 \title{Bulk Gene Set Enrichment Analysis (GSEA)}
 \usage{
-arseq.gsea.runall(ranked.list, save = FALSE, custom.gsea = NULL,
-  save.dir = getwd())
+arseq.gsea.runall(
+  ranked.list,
+  save = FALSE,
+  custom.gsea = NULL,
+  save.dir = getwd()
+)
 }
 \arguments{
 \item{ranked.list}{Ranked list of genes for GSEA analysis. Use 'arseq.gsea.preprocess' to generate ranked list of genes from DESeq2 differential gene expression analysis.}

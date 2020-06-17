@@ -4,8 +4,13 @@
 \alias{arseq.mvg.plot}
 \title{Most Variable Genes}
 \usage{
-arseq.mvg.plot(mvg, metadata, intgroup = "arseq.group",
-  save.plot = FALSE, save.dir = getwd())
+arseq.mvg.plot(
+  mvg,
+  metadata,
+  intgroup = "arseq.group",
+  save.plot = FALSE,
+  save.dir = getwd()
+)
 }
 \arguments{
 \item{mvg}{Expression matrix of the most variable genes identified using the function 'arseq.mvg'}

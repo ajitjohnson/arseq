@@ -4,7 +4,7 @@
 \alias{arseq.mvg}
 \title{Most Variable Genes}
 \usage{
-arseq.mvg(data, variable.genes = 1000, dds.object = TRUE)
+arseq.mvg(data, variable.genes = variable.genes, dds.object = TRUE)
 }
 \arguments{
 \item{data}{DESeq2 object or normalized expression dataframe}

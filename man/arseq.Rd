@@ -4,9 +4,21 @@
 \alias{arseq}
 \title{Automated RNASeq Analysis Pipeline}
 \usage{
-arseq(data, meta, design, contrast, qc = TRUE, dgea = TRUE,
-  variable.genes = 1000, folder.name = "ARSeq", custom.gsea = NULL,
-  save.dir = getwd())
+arseq(
+  data,
+  meta,
+  design,
+  contrast,
+  dds = NULL,
+  qc = TRUE,
+  dgea = TRUE,
+  variable.genes = 1000,
+  folder.name = "ARSeq",
+  custom.gsea = NULL,
+  kmeans = 10,
+  save.dir = getwd(),
+  ensemblmirror = "useast"
+)
 }
 \arguments{
 \item{data}{Un-normalized counts matrix (please note that you should NOT pass in normalized data).  The counts' table should contain unique gene names as the first column. ENSEMBL ID's are also allowed but no other form of ID's are currently supported. Check example- head(example_data): \code{\link{example_data}}.}
@@ -27,7 +39,11 @@ arseq(data, meta, design, contrast, qc = TRUE, dgea = TRUE,
 
 \item{custom.gsea}{User defined gene list to perform GSEA. File need to be supplied as a dataframe with each row as a gene list}
 
+\item{kmeans}{int. Number of clusters/ gene modules. The Most Variable Genes and Differentially Expressed Genes will be divided into the user defined clusters. Default 10.}
+
 \item{save.dir}{Directory to save the results in. Default: Working Directory.}
+
+\item{ensemblmirror}{String. Values for the mirror argument are: useast, uswest, asia}
 }
 \value{
 Differentially expressed genes.

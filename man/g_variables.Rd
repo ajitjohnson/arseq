@@ -3,7 +3,6 @@
 \docType{package}
 \name{g_variables}
 \alias{g_variables}
-\alias{g_variables-package}
 \title{Global variables}
 \description{
 Global variables

@@ -4,7 +4,7 @@
 \alias{arseq.ensembl2genename}
 \title{Gene ID converter}
 \usage{
-arseq.ensembl2genename(data)
+arseq.ensembl2genename(data, ensemblmirror)
 }
 \arguments{
 \item{data}{Expression matrix with ensemble id's as the first column}

@@ -4,8 +4,7 @@
 \alias{arseq.pheatmap}
 \title{Pheatmap plotting function}
 \usage{
-arseq.pheatmap(x, filename, width = 7, height = 7,
-  save.dir = getwd())
+arseq.pheatmap(x, filename, width = 7, height = 7, save.dir = getwd())
 }
 \arguments{
 \item{x}{Expression matrix or any numeric matrix to be visualized as a heatmap.}

@@ -2,10 +2,10 @@
 #' @description Heatmap of the Most Variable genes divided into clusters
 #' @param data Normalized expression dataframe
 #' @param clusters List of gene clusters returned by Kmeans clustering algorithm
-#' @return Kmeans clusters
 #' @import ComplexHeatmap
 #' @import circlize
 #' @import RColorBrewer
+#' @return Heatmap
 #' @examples
 #' arseq.kmeans.plot (data,clusters=kmeansclusters,metadata= example_meta,intgroup="treatment")
 #' @export
@@ -18,7 +18,6 @@ arseq.kmeans.plot <- function(data, clusters, metadata,
   clusters <- data.frame(clusters)
 
   # Set the colors for heatmap
-  require(circlize)
   h1_col = colorRamp2(c(-2, -1, 0, 1, 2), c("#4B6AAF",  '#55B0AE', "#F8F6B8","#F5A15B","#B11E4B"))
 
   # Add Row annotation (clusters)

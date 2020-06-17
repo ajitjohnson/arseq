@@ -4,8 +4,13 @@
 \alias{arseq.plot.save}
 \title{Save plots}
 \usage{
-arseq.plot.save(arseq.plot, filename, width = 7, height = 7,
-  save.dir = getwd())
+arseq.plot.save(
+  arseq.plot,
+  filename,
+  width = 7,
+  height = 7,
+  save.dir = getwd()
+)
 }
 \arguments{
 \item{arseq.plot}{The plot to be saved}

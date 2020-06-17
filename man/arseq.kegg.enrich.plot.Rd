@@ -4,8 +4,12 @@
 \alias{arseq.kegg.enrich.plot}
 \title{Gene Ontology (GO) term enrichment}
 \usage{
-arseq.kegg.enrich.plot(kegg.enrich, foldchanges, save.dir = getwd(),
-  pathway.plots = TRUE)
+arseq.kegg.enrich.plot(
+  kegg.enrich,
+  foldchanges,
+  save.dir = getwd(),
+  pathway.plots = TRUE
+)
 }
 \arguments{
 \item{kegg.enrich}{Enrichment dataframe. Output of the function 'arseq.kegg.enrich'}

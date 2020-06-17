@@ -4,8 +4,14 @@
 \alias{arseq.pca.plot}
 \title{Principal Component Analysis}
 \usage{
-arseq.pca.plot(dds, intgroup = "arseq.group", ntop = 500, pc.a = 1,
-  pc.b = 2, returnData = FALSE)
+arseq.pca.plot(
+  dds,
+  intgroup = "arseq.group",
+  ntop = 500,
+  pc.a = 1,
+  pc.b = 2,
+  returnData = FALSE
+)
 }
 \arguments{
 \item{dds}{DESeq2 object}
