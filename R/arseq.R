@@ -11,6 +11,7 @@
 #' @param qc Logical. When passed in TRUE, the program would run the quality control modules on the entire dataset. If you are planning to perform multiple comparisons using the contrast argument, run  qc = TRUE for the first time and then change it to qc = FALSE for the subsequent comparisons to speed up the analysis.
 #' @param dgea Logical. Parameter to define if differential gene expression analysis is to be performed. Default: TRUE
 #' @param ensemblmirror String. Values for the mirror argument are: useast, uswest, asia
+#' @param kmeans int. Number of clusters/ gene modules. The Most Variable Genes and Differentially Expressed Genes will be divided into the user defined clusters. Default 10.
 #' @import DESeq2
 #' @import utils
 #' @import plyr
@@ -23,7 +24,9 @@
 #' }
 #' @export
 
-arseq <- function(data,meta,design, contrast, dds=NULL, qc= TRUE, dgea=TRUE, variable.genes=1000, folder.name="ARSeq", custom.gsea=NULL, save.dir=getwd(),ensemblmirror="useast"){
+arseq <- function(data,meta,design, contrast, dds=NULL, qc= TRUE, dgea=TRUE,
+                  variable.genes=1000, folder.name="ARSeq", custom.gsea=NULL,
+                  kmeans=10, save.dir=getwd(),ensemblmirror="useast"){
 
   # Set the working directory
   if (save.dir != getwd()){
@@ -125,9 +128,19 @@ arseq <- function(data,meta,design, contrast, dds=NULL, qc= TRUE, dgea=TRUE, var
     mvg <- arseq.mvg (dds,variable.genes=variable.genes)
     write.csv(mvg, file = paste(folder.name,"/Quality Control/most variable genes.csv",sep=""))
 
-    # Heatmap of the most variable genes
-    mvg.plot <- arseq.mvg.plot (mvg,metadata=meta,intgroup="arseq.group",
-                                save.plot=TRUE, save.dir=paste(folder.name,"/Quality Control/",sep=""))
+    # K-Means clustering of the most variable genes
+    if (nrow(mvg) > 100) {
+      kmeans.clusters <- arseq.kmeans (data=mvg, kmeans=kmeans)
+      mvg.plot <- arseq.kmeans.plot (data=mvg, clusters=kmeans.clusters, metadata=meta,save.plot=TRUE,
+                         save.dir= paste(folder.name,"/Quality Control/",sep=""))
+      reactome.plot <- arseq.kmeans.reactome.plot (clusters=kmeans.clusters, save.plot=TRUE,
+                                                                save.dir= paste(folder.name,"/Quality Control/",sep=""))
+    } else {
+      # Heatmap of the most variable genes
+      mvg.plot <- arseq.mvg.plot (mvg,metadata=meta,intgroup="arseq.group",
+                                  save.plot=TRUE, save.dir=paste(folder.name,"/Quality Control/",sep=""))
+    }
+
   }
   if (isTRUE(dgea)){
     # Create folder to save the differentially expression results
@@ -158,6 +171,19 @@ arseq <- function(data,meta,design, contrast, dds=NULL, qc= TRUE, dgea=TRUE, var
     # Heatmap of the differentially expressed genes
     deg.plot <- arseq.deg.plot (deg, data=n_data_goi, dds=dds_subset,
                                 save.plot=TRUE, save.dir=paste(location,"Differential expression/",sep=""))
+
+    # Kmeans cluster DEG to identify submodules within the differentially expressed genes
+    sig_deg <- row.names(data.frame(deg[which(deg$padj <= 0.05), ]))
+    sig_deg <- n_data[row.names(n_data) %in% sig_deg, ]
+
+    if (nrow(sig_deg) > 100) {
+      suppressWarnings(dir.create(paste(location,"Differential expression/kmeans/",sep = "")))
+      kmeans.clusters.deg <- arseq.kmeans (data=sig_deg, kmeans=kmeans)
+      mvg.plot.deg <- arseq.kmeans.plot (data=sig_deg, clusters=kmeans.clusters.deg, metadata=meta,save.plot=TRUE,
+                                     save.dir= paste(location,"/Differential expression/kmeans/",sep=""))
+      reactome.plot.deg <- arseq.kmeans.reactome.plot (clusters=kmeans.clusters.deg, save.plot=TRUE,
+                                                   save.dir= paste(location,"/Differential expression/kmeans/",sep=""))
+    }
 
     # Calculate Euclidean distance between contrast groups
     suppressWarnings(dir.create(paste(location,"Sample relation plots",sep = "")))
@@ -204,6 +230,26 @@ arseq <- function(data,meta,design, contrast, dds=NULL, qc= TRUE, dgea=TRUE, var
     arseq.plot.save (go.plot, filename=paste("GO Enrichment plot- ",goi[1], " vs ", goi[2],".pdf",sep = ""),
                      width=6, height=20,
                      save.dir= paste(location,"GO enrichment analysis",sep="")) # Save the GO plot
+
+    # Reactome Ecnrichment Analysis
+    suppressWarnings(dir.create(paste(location,"Reactome enrichment analysis/",sep = "")))
+    reactome.enrich <- arseq.reactome.enrich (deg,Padj=0.05,plot=TRUE,save.plot=TRUE,
+                                              save.dir= paste(location,"Reactome enrichment analysis/",sep=""))
+    write.csv(reactome.enrich, file = paste(location,"Reactome enrichment analysis/","Reactome Enrichment- ",goi[1], " vs ", goi[2],".csv", sep = ""))
+
+
+
+    if (nrow(mvg) > 100) {
+      kmeans.clusters <- arseq.kmeans (data=mvg, kmeans=kmeans)
+      mvg.plot <- arseq.kmeans.plot (data=mvg, clusters=kmeans.clusters, metadata=meta,save.plot=TRUE,
+                                     save.dir= paste(folder.name,"/Quality Control/",sep=""))
+      reactome.plot <- arseq.kmeans.reactome.plot (clusters=kmeans.clusters, save.plot=TRUE,
+                                                   save.dir= paste(folder.name,"/Quality Control/",sep=""))
+    } else {
+      # Heatmap of the most variable genes
+      mvg.plot <- arseq.mvg.plot (mvg,metadata=meta,intgroup="arseq.group",
+                                  save.plot=TRUE, save.dir=paste(folder.name,"/Quality Control/",sep=""))
+    }
 
     # Kegg Pathway Analysis for the DEG's
     suppressWarnings(dir.create(paste(location,"KEGG pathway enrichment/",sep = "")))

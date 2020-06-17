@@ -1,7 +1,7 @@
 Package: arseq
 Type: Package
 Title: Automated RNA Sequencing Analysis Pipeline
-Version: 2.1.16
+Version: 2.2.0
 Author: Ajit Johnson Nirmal
 Maintainer: Ajit Johnson Nirmal <ajitjohnson.n@gmail.com>
 Description: Biologist friendly program that supports the following analysis in an automated fashion with minimal coding requirement. 
@@ -58,6 +58,10 @@ Imports:
   gage (>= 2.32),
   AnnotationDbi (>= 1.44),
   matrixStats (>= 0.54.0)
+  circlize (>= 0.4.9)
+  ComplexHeatmap (>= 2.5.2)
+  clusterProfiler (>= 3.14.3)
+  ReactomePA (>= 1.30.0)
 RoxygenNote: 6.1.1
 URL: https://github.com/ajitjohnson/arseq
 Suggests: testthat
