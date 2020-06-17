@@ -57,10 +57,10 @@ Imports:
   pathview (>= 1.22),
   gage (>= 2.32),
   AnnotationDbi (>= 1.44),
-  matrixStats (>= 0.54.0)
-  circlize (>= 0.4.9)
-  ComplexHeatmap (>= 2.5.2)
-  clusterProfiler (>= 3.14.3)
+  matrixStats (>= 0.54.0),
+  circlize (>= 0.4.9),
+  ComplexHeatmap (>= 2.5.2),
+  clusterProfiler (>= 3.14.3),
   ReactomePA (>= 1.30.0)
 RoxygenNote: 6.1.1
 URL: https://github.com/ajitjohnson/arseq
