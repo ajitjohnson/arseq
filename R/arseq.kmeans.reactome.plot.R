@@ -25,6 +25,7 @@ arseq.kmeans.reactome.plot <- function(clusters, save.plot=FALSE, save.dir=getwd
   gn <- lapply(unique(clusters[,1]), gene2entrez)
   names(gn) <- unique(clusters[,1])
   # Perform reactome enrichment
+  require(ReactomePA)
   res <- compareCluster(gn, fun="enrichPathway")
 
   # Save or plot the DotPlot
