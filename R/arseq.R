@@ -237,20 +237,6 @@ arseq <- function(data,meta,design, contrast, dds=NULL, qc= TRUE, dgea=TRUE,
                                               save.dir= paste(location,"Reactome enrichment analysis/",sep=""))
     write.csv(reactome.enrich, file = paste(location,"Reactome enrichment analysis/","Reactome Enrichment- ",goi[1], " vs ", goi[2],".csv", sep = ""))
 
-
-
-    if (nrow(mvg) > 100) {
-      kmeans.clusters <- arseq.kmeans (data=mvg, kmeans=kmeans)
-      mvg.plot <- arseq.kmeans.plot (data=mvg, clusters=kmeans.clusters, metadata=meta,save.plot=TRUE,
-                                     save.dir= paste(folder.name,"/Quality Control/",sep=""))
-      reactome.plot <- arseq.kmeans.reactome.plot (clusters=kmeans.clusters, save.plot=TRUE,
-                                                   save.dir= paste(folder.name,"/Quality Control/",sep=""))
-    } else {
-      # Heatmap of the most variable genes
-      mvg.plot <- arseq.mvg.plot (mvg,metadata=meta,intgroup="arseq.group",
-                                  save.plot=TRUE, save.dir=paste(folder.name,"/Quality Control/",sep=""))
-    }
-
     # Kegg Pathway Analysis for the DEG's
     suppressWarnings(dir.create(paste(location,"KEGG pathway enrichment/",sep = "")))
     kegg.enrich <- arseq.kegg.enrich (deg, kegg.compare="as.group")
