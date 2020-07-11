@@ -135,6 +135,7 @@ arseq <- function(data,meta,design, contrast, dds=NULL, qc= TRUE, dgea=TRUE,
                          save.dir= paste(folder.name,"/Quality Control/",sep=""))
       reactome.plot <- arseq.kmeans.reactome.plot (clusters=kmeans.clusters, save.plot=TRUE,
                                                                 save.dir= paste(folder.name,"/Quality Control/",sep=""))
+      write.csv(data.frame(kmeans.clusters), file = paste(folder.name,"/Quality Control/most variable genes kmeans clusters.csv",sep=""))
     } else {
       # Heatmap of the most variable genes
       mvg.plot <- arseq.mvg.plot (mvg,metadata=meta,intgroup="arseq.group",
@@ -183,6 +184,8 @@ arseq <- function(data,meta,design, contrast, dds=NULL, qc= TRUE, dgea=TRUE,
                                      save.dir= paste(location,"/Differential expression/kmeans/",sep=""))
       reactome.plot.deg <- arseq.kmeans.reactome.plot (clusters=kmeans.clusters.deg, save.plot=TRUE,
                                                    save.dir= paste(location,"/Differential expression/kmeans/",sep=""))
+      write.csv(data.frame(kmeans.clusters.deg), file = paste(location,"/Differential expression/kmeans/kmeans clusters.csv",sep=""))
+
     }
 
     # Calculate Euclidean distance between contrast groups
