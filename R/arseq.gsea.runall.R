@@ -66,12 +66,12 @@ arseq.gsea.runall <- function(ranked.list, save=FALSE, custom.gsea=NULL, save.di
   # C3
   print("Performing GSEA with C3: Motif gene sets")
   gsea.results$C3.MIR <- arseq.gsea (ranked.list=ranked.list,
-                                     f.name="Motif gene sets",fsub.name="MIR",
+                                     f.name="Motif gene sets",fsub.name="MIR:MIRDB",
                                      category = "C3",subcategory="MIR",
                                      save=save, save.dir=save.dir)
 
   gsea.results$C3.TFT <- arseq.gsea (ranked.list=ranked.list,
-                                     f.name="Motif gene sets",fsub.name="TFT",
+                                     f.name="Motif gene sets",fsub.name="TFT:GTRD",
                                      category = "C3",subcategory="TFT",
                                      save=save, save.dir=save.dir)
   # C4
