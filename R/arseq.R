@@ -236,9 +236,8 @@ arseq <- function(data,meta,design, contrast, dds=NULL, qc= TRUE, dgea=TRUE,
 
     # Reactome Ecnrichment Analysis
     suppressWarnings(dir.create(paste(location,"Reactome enrichment analysis/",sep = "")))
-    reactome.enrich <- arseq.reactome.enrich (deg,Padj=0.05,plot=TRUE,save.plot=TRUE,
-                                              save.dir= paste(location,"Reactome enrichment analysis/",sep=""))
-    write.csv(reactome.enrich, file = paste(location,"Reactome enrichment analysis/","Reactome Enrichment- ",goi[1], " vs ", goi[2],".csv", sep = ""))
+    try(reactome.enrich <- arseq.reactome.enrich (deg,Padj=0.05,plot=TRUE,save.plot=TRUE, save.dir= paste(location,"Reactome enrichment analysis/",sep="")))
+    try(write.csv(reactome.enrich, file = paste(location,"Reactome enrichment analysis/","Reactome Enrichment- ",goi[1], " vs ", goi[2],".csv", sep = "")))
 
     # Kegg Pathway Analysis for the DEG's
     suppressWarnings(dir.create(paste(location,"KEGG pathway enrichment/",sep = "")))
