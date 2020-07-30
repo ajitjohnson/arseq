@@ -170,13 +170,13 @@ arseq <- function(data,meta,design, contrast, dds=NULL, qc= TRUE, dgea=TRUE,
     write.csv(deg, file = paste(location,"Differential expression/",goi[1], " vs ", goi[2],".csv",sep = ""))
 
     # Heatmap of the differentially expressed genes
-    deg.plot <- arseq.deg.plot (deg, data=n_data_goi, dds=dds_subset,
-                                save.plot=TRUE, save.dir=paste(location,"Differential expression/",sep=""))
+    try(deg.plot <- arseq.deg.plot (deg, data=n_data_goi, dds=dds_subset, save.plot=TRUE, save.dir=paste(location,"Differential expression/",sep="")))
 
     # Kmeans cluster DEG to identify submodules within the differentially expressed genes
-    sig_deg <- row.names(data.frame(deg[which(deg$padj <= 0.05), ]))
-    sig_deg <- n_data[row.names(n_data) %in% sig_deg, ]
+    try(sig_deg <- row.names(data.frame(deg[which(deg$padj <= 0.05), ])))
+    try(sig_deg <- n_data[row.names(n_data) %in% sig_deg, ])
 
+    try(
     if (nrow(sig_deg) > 100) {
       suppressWarnings(dir.create(paste(location,"Differential expression/kmeans/",sep = "")))
       kmeans.clusters.deg <- arseq.kmeans (data=sig_deg, kmeans=kmeans)
@@ -186,7 +186,7 @@ arseq <- function(data,meta,design, contrast, dds=NULL, qc= TRUE, dgea=TRUE,
                                                    save.dir= paste(location,"/Differential expression/kmeans/",sep=""))
       write.csv(data.frame(kmeans.clusters.deg), file = paste(location,"/Differential expression/kmeans/kmeans clusters.csv",sep=""))
 
-    }
+    })
 
     # Calculate Euclidean distance between contrast groups
     suppressWarnings(dir.create(paste(location,"Sample relation plots",sep = "")))
@@ -225,14 +225,14 @@ arseq <- function(data,meta,design, contrast, dds=NULL, qc= TRUE, dgea=TRUE,
 
     # GO Enrichment Analysis
     suppressWarnings(dir.create(paste(location,"GO enrichment analysis/",sep = "")))
-    go.enrich <- arseq.go.enrich (deg,Padj=0.05)
-    write.csv(go.enrich, file = paste(location,"GO enrichment analysis/","GO Enrichment- ",goi[1], " vs ", goi[2],".csv", sep = ""))
+    try(go.enrich <- arseq.go.enrich (deg,Padj=0.05))
+    try(write.csv(go.enrich, file = paste(location,"GO enrichment analysis/","GO Enrichment- ",goi[1], " vs ", goi[2],".csv", sep = "")))
 
     # GO Enrichment plot
-    go.plot <- arseq.go.enrich.plot (go.enrich)
-    arseq.plot.save (go.plot, filename=paste("GO Enrichment plot- ",goi[1], " vs ", goi[2],".pdf",sep = ""),
+    try(go.plot <- arseq.go.enrich.plot (go.enrich))
+    try(arseq.plot.save (go.plot, filename=paste("GO Enrichment plot- ",goi[1], " vs ", goi[2],".pdf",sep = ""),
                      width=6, height=20,
-                     save.dir= paste(location,"GO enrichment analysis",sep="")) # Save the GO plot
+                     save.dir= paste(location,"GO enrichment analysis",sep=""))) # Save the GO plot
 
     # Reactome Ecnrichment Analysis
     suppressWarnings(dir.create(paste(location,"Reactome enrichment analysis/",sep = "")))
@@ -241,21 +241,21 @@ arseq <- function(data,meta,design, contrast, dds=NULL, qc= TRUE, dgea=TRUE,
 
     # Kegg Pathway Analysis for the DEG's
     suppressWarnings(dir.create(paste(location,"KEGG pathway enrichment/",sep = "")))
-    kegg.enrich <- arseq.kegg.enrich (deg, kegg.compare="as.group")
+    try(kegg.enrich <- arseq.kegg.enrich (deg, kegg.compare="as.group"))
     # write the reults
-    write.csv(kegg.enrich$up_regulated_pathways, file = paste(location,"KEGG pathway enrichment/","KEGG Up Regulated Pathways- ",goi[1], " vs ", goi[2],".csv",sep = ""))
-    write.csv(kegg.enrich$down_regulated_pathways, file = paste(location,"KEGG pathway enrichment/","KEGG Down Regulated Pathways- ",goi[1], " vs ", goi[2],".csv",sep = ""))
+    try(write.csv(kegg.enrich$up_regulated_pathways, file = paste(location,"KEGG pathway enrichment/","KEGG Up Regulated Pathways- ",goi[1], " vs ", goi[2],".csv",sep = "")))
+    try(write.csv(kegg.enrich$down_regulated_pathways, file = paste(location,"KEGG pathway enrichment/","KEGG Down Regulated Pathways- ",goi[1], " vs ", goi[2],".csv",sep = "")))
 
     # Kegg Pathway Analysis Plot
-    kegg.plot <- arseq.kegg.enrich.plot (kegg.enrich,foldchanges=kegg.enrich$foldchanges,save.dir= paste(location,"KEGG pathway enrichment",sep=""))
-    kegg.plot.2 <- arseq.kegg.enrich.plot (kegg.enrich,foldchanges=kegg.enrich$foldchanges,pathway.plots=FALSE)
-    arseq.plot.save (kegg.plot.2, filename=paste("KEGG Enrichment plot- ",goi[1], " vs ", goi[2],".pdf",sep = ""),
+    try(kegg.plot <- arseq.kegg.enrich.plot (kegg.enrich,foldchanges=kegg.enrich$foldchanges,save.dir= paste(location,"KEGG pathway enrichment",sep="")))
+    try(kegg.plot.2 <- arseq.kegg.enrich.plot (kegg.enrich,foldchanges=kegg.enrich$foldchanges,pathway.plots=FALSE))
+    try(arseq.plot.save (kegg.plot.2, filename=paste("KEGG Enrichment plot- ",goi[1], " vs ", goi[2],".pdf",sep = ""),
                      width=8, height=12,
-                     save.dir= paste(location,"KEGG pathway enrichment",sep="")) # Save the KEGG plot
+                     save.dir= paste(location,"KEGG pathway enrichment",sep=""))) # Save the KEGG plot
 
     # GSEA Analysis
-    ranked.list <- arseq.gsea.preprocess (deg)
-    gsea.output <- arseq.gsea.runall (ranked.list, save=TRUE, save.dir=location, custom.gsea=custom.gsea)
+    try(ranked.list <- arseq.gsea.preprocess (deg))
+    try(gsea.output <- arseq.gsea.runall (ranked.list, save=TRUE, save.dir=location, custom.gsea=custom.gsea))
   }
   #if (isTRUE(dgea)){return(deg)}
   return (dds_raw)
