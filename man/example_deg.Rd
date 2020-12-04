@@ -4,7 +4,9 @@
 \name{example_deg}
 \alias{example_deg}
 \title{Differentially expressed genes}
-\format{dataframe}
+\format{
+dataframe
+}
 \usage{
 example_deg
 }

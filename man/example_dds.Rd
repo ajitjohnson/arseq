@@ -4,7 +4,9 @@
 \name{example_dds}
 \alias{example_dds}
 \title{DESeq2 object}
-\format{object}
+\format{
+object
+}
 \usage{
 example_dds
 }

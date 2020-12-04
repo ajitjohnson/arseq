@@ -7,7 +7,8 @@
 #' @import ggrepel
 #' @import ggplot2
 #' @importFrom stats dist cmdscale
-#' @importFrom dplyr tbl_df "%>%"
+#' @importFrom dplyr "%>%"
+#' @importFrom tibble as_tibble
 #' @examples
 #' \dontrun{
 #' mds.plot <- arseq.mds.plot (example_dds, intgroup="treatment")

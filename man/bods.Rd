@@ -4,7 +4,9 @@
 \name{bods}
 \alias{bods}
 \title{bods}
-\format{dataframe}
+\format{
+dataframe
+}
 \usage{
 bods
 }

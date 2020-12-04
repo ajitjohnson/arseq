@@ -16,7 +16,7 @@ arseq.kmeans.reactome.plot <- function(clusters, save.plot=FALSE, save.dir=getwd
     require(org.Hs.eg.db)
     hs <- org.Hs.eg.db
     genes = row.names(clusters[clusters[,1] == cluster,,drop=F])
-    ENT <- select (hs, keys = genes,columns = c("ENTREZID", "SYMBOL"), keytype = "SYMBOL")
+    ENT <- AnnotationDbi::select (hs, keys = genes,columns = c("ENTREZID", "SYMBOL"), keytype = "SYMBOL")
     ENT <- ENT[complete.cases(ENT), ]
     entid <- ENT$ENTREZID
     return(entid)

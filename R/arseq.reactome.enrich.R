@@ -22,7 +22,7 @@ arseq.reactome.enrich <- function(deg,Padj=0.05,plot=FALSE,save.plot=FALSE,save.
   # Convert gene names to entrez ID
   require(org.Hs.eg.db)
   hs <- org.Hs.eg.db
-  ENT <- select (hs, keys = names(ranked.list), columns = c("ENTREZID", "SYMBOL"), keytype = "SYMBOL")
+  ENT <- AnnotationDbi::select (hs, keys = names(ranked.list), columns = c("ENTREZID", "SYMBOL"), keytype = "SYMBOL")
   ENT <- ENT[complete.cases(ENT), ]
   entid <- ENT$ENTREZID
 

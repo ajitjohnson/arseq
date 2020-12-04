@@ -4,7 +4,9 @@
 \name{my_plots}
 \alias{my_plots}
 \title{my_plots}
-\format{dataframe}
+\format{
+dataframe
+}
 \usage{
 my_plots
 }

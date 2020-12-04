@@ -4,7 +4,9 @@
 \name{example_meta}
 \alias{example_meta}
 \title{Meta data}
-\format{dataframe}
+\format{
+dataframe
+}
 \usage{
 example_meta
 }
