@@ -10,12 +10,12 @@
 #' @import grDevices
 #' @import gplots
 
-arseq.deg.plot <- function(deg, data, dds, save.plot=FALSE,save.dir=getwd()){
+arseq.deg.plot <- function(gene_count,deg, data, dds, save.plot=FALSE,save.dir=getwd()){
   # Subset the significant genes from deg and subset the rows of n_data based on those genes and columns based on goi
   deg_heatmap <- data.frame(deg[which(deg$padj <= 0.05), ])
   # Identify the top 500 genes for the heatmap
-  if (nrow(deg_heatmap) > 200){
-    deg_heatmap <- deg_heatmap[order(deg_heatmap$padj),][1:200,]
+  if (nrow(deg_heatmap) > gene_count){
+    deg_heatmap <- deg_heatmap[order(deg_heatmap$padj),][1:gene_count,]
   }
   # Order the dataframe based on fold change
   deg_heatmap <- deg_heatmap[order(deg_heatmap$log2FoldChange),]
@@ -30,14 +30,14 @@ arseq.deg.plot <- function(deg, data, dds, save.plot=FALSE,save.dir=getwd()){
     print("Generating heatmap of the diferentially expressed genes")
     pdf(paste(save.dir,"DEG Heatmap.pdf",sep = ""),width=20,height=20,paper='special')
     heatmap.2(as.matrix(deg_heatmap), Rowv = NA, Colv = NA, scale="row",
-              col =coul, trace="none",main="Top 200 Differentially Expressed Genes",
+              col =coul, trace="none",main="Top Differentially Expressed Genes",
               dendrogram= "none",ColSideColors=my_col,cexCol = 2,
               margins = c(10,8))
     dev.off()
   }else{
     print("Generating heatmap of the diferentially expressed genes")
     heatmap.2(as.matrix(deg_heatmap), Rowv = NA, Colv = NA, scale="row",
-              col =coul, trace="none",main="Top 200 Differentially Expressed Genes",
+              col =coul, trace="none",main="Top Differentially Expressed Genes",
               dendrogram= "none",ColSideColors=my_col,cexCol = 2,
               margins = c(10,8))
   }
