@@ -4,6 +4,7 @@
 #' @param meta A CSV file with information regarding the samples. It is absolutely critical that the columns of the counts' matrix and the rows of the metadata are in the same order. The function will not make guesses as to which column of the count matrix belongs to which row of the metadata, these must be provided in a consistent order. Check example- head(example_meta): \code{\link{example_meta}}.
 #' @param design The formula that expresses how the counts for each gene depend on your metadata (used to calculate the necessary data for differential gene expression analysis). Check DESeq2 documentation for designing the formula. In general, you pass in a column name (e.g. treatment) of your metadata file or a combination of column names (e.g. treatment + cell_type).
 #' @param contrast Information regarding the groups between which you would like to perform differential gene expression analysis. It could be between two groups or between multiple groups and needs to follow the following format: contrast = list(A = c(" "), B= c(" ")). If you are comparing two groups (e.g. control vs treatment), the constrast argument should look like the following: contrast = list(A = c("control"), B= c("treatment")). In situations where you have multiple groups to compare- (e.g. control vs treatment1 and treatment2), you should do the following- contrast = list(A = c("control"), B= c("treatment1", "treatment2")).
+#' @param species Only applies to converting ENSEMBL IDs to Gene names (not to enrichment analysis).  Species you want to use. To see the different datasets available you can use do: library(biomaRt); followed by mart = useEnsembl('ENSEMBL_MART_ENSEMBL'); followed by listDatasets(mart). Default: 'hsapiens_gene_ensembl'.
 #' @param variable.genes numeric: The number of most variable genes to be identified. By default, the program identifies the top 1000 most variable genes.
 #' @param folder.name Custom folder name that you would like to save your results in.
 #' @param save.dir Directory to save the results in. Default: Working Directory.
@@ -25,6 +26,7 @@
 #' @export
 
 arseq <- function(data,meta,design, contrast, dds=NULL, qc= TRUE, dgea=TRUE,
+                  species='hsapiens_gene_ensembl',
                   variable.genes=1000, folder.name="ARSeq", custom.gsea=NULL,
                   kmeans=10, save.dir=getwd(),ensemblmirror="useast"){
 
@@ -68,7 +70,7 @@ arseq <- function(data,meta,design, contrast, dds=NULL, qc= TRUE, dgea=TRUE,
 
   # ENSEMBL ID to gene names
   if (all(substr(row.names(data),1,3) == "ENS")){
-    data <- arseq.ensembl2genename(data,ensemblmirror)
+    data <- arseq.ensembl2genename(data,ensemblmirror,species)
     }
 
   # Remove genes that are completely not expressed
