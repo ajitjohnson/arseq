@@ -77,6 +77,9 @@ arseq <- function(data,meta,design, contrast, dds=NULL, qc= TRUE, dgea=TRUE,
   print("Removing genes that are not expressed: if any")
   data <- data[rowSums(data) > 0, ]
 
+  # create a copy for keeping the same order for normalized data
+  orginal_order <- colnames(data)
+
   # Rearrange the samples
   meta <- meta[order(meta$arseq.group),]
   data <- data[,row.names(meta)]
@@ -94,6 +97,7 @@ arseq <- function(data,meta,design, contrast, dds=NULL, qc= TRUE, dgea=TRUE,
   # Get the normalized matrix for heatmaps
   print("Normalizing data and saving the normalized data")
   n_data <- log2(counts(dds, normalized=TRUE)+1)
+  n_data <- n_data [,orginal_order]
   write.csv(n_data, file = paste(folder.name,"/normalized_data",".csv",sep = ""))
 
   # Quality Control of the data
